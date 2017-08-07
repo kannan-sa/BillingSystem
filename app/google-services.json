@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "238904215620",
+    "firebase_url": "https://billingsystem-57b87.firebaseio.com",
+    "project_id": "billingsystem-57b87",
+    "storage_bucket": "billingsystem-57b87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238904215620:android:05eb5d7e23d52319",
+        "android_client_info": {
+          "package_name": "com.kumarangarden.billingsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238904215620-7e06dht8jsirfkgh3n4chl5qkm74esjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kumarangarden.billingsystem",
+            "certificate_hash": "3a29ee345c043a590da2698060afc1aac875d0a8"
+          }
+        },
+        {
+          "client_id": "238904215620-g0bb4f64q3ufoq1kbtgimmv4434cibpl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgRGMUOi0F7hB2ZEa-TICoucqwZn_Kfes"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238904215620-g0bb4f64q3ufoq1kbtgimmv4434cibpl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
