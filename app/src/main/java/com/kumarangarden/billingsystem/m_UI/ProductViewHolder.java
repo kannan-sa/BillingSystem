@@ -14,7 +14,7 @@ import org.w3c.dom.Text;
 
 public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-    TextView name, price, id;
+    public TextView name, price, id;
 
     public ProductViewHolder(View itemView) {
         super(itemView);
