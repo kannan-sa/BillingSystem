@@ -8,6 +8,7 @@ import android.support.annotation.StyleRes;
 import android.widget.EditText;
 
 import com.kumarangarden.billingsystem.R;
+import com.kumarangarden.billingsystem.m_Model.Product;
 
 /**
  * Created by kanna_000 on 08-08-2017.
@@ -39,6 +40,14 @@ public class ProductDialog extends Dialog {
             result = "Enter Price";
 
         return result;
+    }
+
+    public Product getProduct() {
+        Product product = new Product();
+        product.Name = name.getText().toString();
+        product.ID = id.getText().toString();
+        product.Price = Float.parseFloat(price.getText().toString());
+        return product;
     }
 
     public void clear() {

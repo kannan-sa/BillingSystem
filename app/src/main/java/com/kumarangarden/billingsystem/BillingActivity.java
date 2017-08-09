@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,15 +15,22 @@ import android.view.View;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
+import com.kumarangarden.billingsystem.m_UI.ProductAdapter;
 import com.kumarangarden.billingsystem.m_UI.ProductDialog;
 
 public class BillingActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
-
     private FloatingActionButton fab;
-
     ProductDialog newProduct;
+
+    DatabaseReference db;
+    FirebaseHelper helper;
+    ProductAdapter productAdapter;
+    RecyclerView productsView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,12 +64,21 @@ public class BillingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(BillingActivity.this, NewMessageActivity.class);
-                //startActivity(intent);
-
                 ShowDialog();
             }
         });
+
+        productsView = (RecyclerView) findViewById(R.id.productsView);
+        productsView.setLayoutManager(new LinearLayoutManager(this));
+
+        db = FirebaseDatabase.getInstance().getReference();
+
+        helper = new FirebaseHelper(db);
+
+        productAdapter = new ProductAdapter(this, helper.retrieve());
+        productsView.setAdapter(productAdapter);
+
+
 
         newProduct = new ProductDialog(this);
         newProduct.setTitle("Product");
@@ -85,6 +103,13 @@ public class BillingActivity extends AppCompatActivity {
         if(toastMessage.matches(""))
         {
             //Add new product to view..
+            if(helper.save(newProduct.getProduct()))
+            {
+                productAdapter = new ProductAdapter(BillingActivity.this, helper.retrieve());
+                productsView.setAdapter(productAdapter);
+            }
+            else
+                toastMessage ="Failed Saving";
             //newProduct.cancel();
             newProduct.clear();
             toastMessage ="New Product Added";
