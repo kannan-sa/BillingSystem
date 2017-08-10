@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <tabs>
+        <tab
+            id="@+id/navigation_purchase"
+            icon="@drawable/ic_billing_18dp"
+            title="@string/title_purchase"
+            barColorWhenSelected="#039BE5"
+            />
+
+        <tab
+            id="@+id/navigation_products"
+            icon="@drawable/ic_products_18dp"
+            title="@string/title_products"
+            barColorWhenSelected="#8BC34A"
+            />
+
+        <tab
+            id="@+id/navigation_customers"
+            icon="@drawable/ic_customer_18dp"
+            title="@string/title_customers"
+            barColorWhenSelected="#FFC400"
+            />
+    </tabs>
+</resources>

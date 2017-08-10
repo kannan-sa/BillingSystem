@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/purchaseToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#039BE5"
+        android:backgroundTint="#039BE5">
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/printRecipt"
+        android:layout_width="70dp"
+        android:layout_height="63dp"
+        android:alpha=".85"
+        android:elevation="4dp"
+        android:onClick="AddItem"
+        android:src="@drawable/ic_action_print"
+        android:visibility="visible"
+        app:backgroundTint="#0288D1"
+        app:elevation="4dp"
+        android:layout_marginTop="60dp"
+        app:layout_anchor="@id/purchaseToolbar"
+        app:layout_anchorGravity="bottom|end"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/addItem"
+        android:layout_alignStart="@+id/addItem" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/itemsView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.87"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/addItem"
+        android:layout_below="@+id/purchaseToolbar">
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addItem"
+        android:layout_width="70dp"
+        android:layout_height="63dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="59dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:alpha=".75"
+        android:elevation="4dp"
+        android:onClick="AddItem"
+        android:src="@drawable/ic_action_add"
+        android:visibility="visible"
+        app:backgroundTint="#0288D1"
+        app:elevation="4dp"
+        app:srcCompat="@android:string/yes"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

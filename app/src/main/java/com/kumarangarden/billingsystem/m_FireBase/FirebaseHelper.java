@@ -5,6 +5,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
+import com.kumarangarden.billingsystem.m_Model.Customer;
+import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Model.Product;
 
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
 public class FirebaseHelper {
     DatabaseReference db;
     Boolean saved = null;
-    ArrayList<Product> products = new ArrayList<>();
 
     public FirebaseHelper(DatabaseReference db)
     {
@@ -42,46 +43,42 @@ public class FirebaseHelper {
         return  saved;
     }
 
-    public void fetchData(DataSnapshot dataSnapshot)
+    public Boolean save(Item item)
     {
-        products.clear();
-
-        for(DataSnapshot ds : dataSnapshot.getChildren())
+        if(item == null)
+            saved = false;
+        else
         {
-            Product product = ds.getValue(Product.class);
-            products.add(product);
+            try
+            {
+                db.child("Items").push().setValue(item);
+                saved = true;
+            }catch (DatabaseException e)
+            {
+                e.printStackTrace();
+                saved = true;
+            }
         }
+        return  saved;
     }
 
-    public ArrayList<Product> retrieve()
+    public Boolean save(Customer customer)
     {
-        db.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                fetchData(dataSnapshot);
+        if(customer == null)
+            saved = false;
+        else
+        {
+            try
+            {
+                db.child("Customers").push().setValue(customer);
+                saved = true;
+            }catch (DatabaseException e)
+            {
+                e.printStackTrace();
+                saved = true;
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                fetchData(dataSnapshot);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return products;
+        }
+        return  saved;
     }
 
 }
