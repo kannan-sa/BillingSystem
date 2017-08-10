@@ -46,6 +46,7 @@ public class ItemDialog extends Dialog {
         item.Name = name.getText().toString();
         item.Quantity = Float.parseFloat(quantity.getText().toString());
         item.UnitPrice = Float.parseFloat(price.getText().toString());
+        item.ID = "000";
         return item;
     }
 

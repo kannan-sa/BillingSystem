@@ -46,10 +46,7 @@ public class ProductsFragment extends Fragment {
                 R.layout.productcard, ProductViewHolder.class, db.child("Products").getRef()) {
             @Override
             protected void populateViewHolder(ProductViewHolder holder, final Product product, final int position) {
-                holder.name.setText(product.Name);
-                holder.id.setText(product.ID);
-                holder.price.setText("₹: " + product.Price);
-
+                holder.Initialize(product);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -74,7 +71,7 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 ProductViewHolder holder = (ProductViewHolder) viewHolder;
-                Toast.makeText(view.getContext(), holder.name.getText().toString() + " Removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), holder.getName() + " Removed", Toast.LENGTH_SHORT).show();
 
                 //Remove swiped item from list and notify the RecyclerView
                 final int position = viewHolder.getAdapterPosition();

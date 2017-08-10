@@ -77,7 +77,12 @@ public class BillingActivity extends AppCompatActivity {
 
     void AddCustomer(View view)
     {
-
+        customersFragment.AddCustomer(view);
     }
-
+    void SaveCustomer(View view) {
+        customersFragment.SaveCustomer(view);
+    }
+    void CancelCustomer(View view)  {
+        customersFragment.CancelCustomer(view);
+    }
 }

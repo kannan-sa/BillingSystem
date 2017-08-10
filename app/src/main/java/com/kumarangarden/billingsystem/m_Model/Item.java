@@ -6,6 +6,7 @@ package com.kumarangarden.billingsystem.m_Model;
 
 public class Item {
     public String Name;
+    public String ID;
     public  float Quantity;
     public  float UnitPrice;
 
