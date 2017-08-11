@@ -33,8 +33,6 @@ public class ItemDialog extends Dialog {
     private DatabaseReference db;
     private Button incQnt, decQnt, incPrc, decPrc;
 
-    private EditText pointer;
-
     private long DELAY = 100;
     Handler handler;
 

@@ -1,28 +1,28 @@
 package com.kumarangarden.billingsystem;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
-public class BillingActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     PurchaseFragment purchaseFragment;
     ProductsFragment productsFragment;
     CustomersFragment customersFragment;
-
+    BottomBar bottomBar;
     static boolean initialized;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_billing);
+        setContentView(R.layout.activity_main);
 
         if(!initialized) {
             initialized = true;
@@ -32,11 +32,11 @@ public class BillingActivity extends AppCompatActivity {
         productsFragment = new ProductsFragment();
         customersFragment = new CustomersFragment();
 
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                Fragment fragment = null;
                 switch (tabId)
                 {
                     case R.id.navigation_purchase:
@@ -51,7 +51,13 @@ public class BillingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int bottomBarState  =  saved_values.getInt("ONLY_PURCHASE", 0);
+        bottomBar.setVisibility(bottomBarState == View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
     }
+
+
 
     public void AddProduct(View view)
     {

@@ -2,19 +2,24 @@ package com.kumarangarden.billingsystem;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,11 +34,10 @@ import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_UI.ItemDialog;
 import com.kumarangarden.billingsystem.m_UI.ItemViewHolder;
-import com.kumarangarden.billingsystem.m_UI.ProductViewHolder;
+import com.roughike.bottombar.BottomBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by kanna_000 on 09-08-2017.
@@ -48,6 +52,13 @@ public class PurchaseFragment extends Fragment {
     FirebaseRecyclerAdapter<Item, ItemViewHolder> firebaseRecyclerAdapter;
     TextView dateView, timeView, totalView;
     View view;
+
+    BottomBar bottomBar;
+    boolean holding = false;
+    private long DELAY = 2000;
+    Handler handler;
+
+    SharedPreferences settings;
 
     @Nullable
     @Override
@@ -122,7 +133,7 @@ public class PurchaseFragment extends Fragment {
         timeView.setText(currentDateandTime);
 
 
-        final ArrayAdapter<String> autoComplete = new ArrayAdapter<String>(view.getContext(), R.layout.customerlist);
+        final ArrayAdapter<String> autoComplete = new ArrayAdapter<String>(view.getContext(), R.layout.autocompletetext);
         db.child("Customers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -166,8 +177,67 @@ public class PurchaseFragment extends Fragment {
             }
         });
 
+        handler = new Handler();
+        bottomBar = (BottomBar) container.findViewById(R.id.bottomBar);
+
+        totalView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                    ScheduleStateChange();
+                else if(event.getAction() == MotionEvent.ACTION_UP)
+                    handler.removeCallbacksAndMessages(null);
+                return false;
+            }
+        });
+
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext());
+        int bottomBarState  =  saved_values.getInt("ONLY_PURCHASE", 0);
+        SetAppMode(bottomBarState);
 
         return view;
+    }
+    public void ScheduleStateChange()
+    {
+        holding = true;
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if(holding)
+                    bottomBar.setVisibility(bottomBar.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE );
+
+                int bottomBarState = bottomBar.getVisibility();
+
+                SetAppMode(bottomBarState);
+
+                SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext());
+                SharedPreferences.Editor editor = saved_values.edit();
+                editor.putInt("ONLY_PURCHASE",bottomBarState);
+                editor.commit();
+
+                holding = false;
+            }
+        }, DELAY);
+    }
+
+    public void SetAppMode(int bottomBarState) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)itemsView.getLayoutParams();
+        FloatingActionButton addItem = (FloatingActionButton) view.findViewById(R.id.addItem);
+
+        RelativeLayout.LayoutParams addItemParams = (RelativeLayout.LayoutParams) addItem.getLayoutParams();
+
+        if(bottomBarState == View.VISIBLE ) {
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+            params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.addItem);
+            addItemParams.setMargins(0, 0, 0, (int)getResources().getDimension(R.dimen.float_bar_bottom_ex));
+        }
+        else
+        {
+            params.addRule(RelativeLayout.ALIGN_BOTTOM, 0);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 1);
+            addItemParams.setMargins(0, 0, 0, (int)getResources().getDimension(R.dimen.float_bar_bottom));
+        }
+        itemsView.setLayoutParams(params);
+        addItem.setLayoutParams(addItemParams);
     }
 
     void AddItem(View view)
