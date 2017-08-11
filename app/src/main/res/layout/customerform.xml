@@ -10,20 +10,6 @@
     >
 
     <TextView
-        android:id="@+id/labelTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="New Item"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/labelName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

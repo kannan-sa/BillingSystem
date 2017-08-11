@@ -108,7 +108,7 @@
         android:layout_alignTop="@+id/textDate"
         android:layout_marginRight="5dp"
         android:gravity="end"
-        android:text="மொத்தம் ₹: 5000"
+        android:text="மொத்தம் ₹: 0.00"
         android:textAlignment="textEnd"
         android:textColor="@color/cardview_light_background"
         android:textSize="18sp"

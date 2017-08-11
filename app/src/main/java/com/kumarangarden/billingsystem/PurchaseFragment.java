@@ -46,7 +46,7 @@ public class PurchaseFragment extends Fragment {
     FirebaseHelper helper;
     RecyclerView itemsView;
     FirebaseRecyclerAdapter<Item, ItemViewHolder> firebaseRecyclerAdapter;
-    TextView dateView, timeView;
+    TextView dateView, timeView, totalView;
     View view;
 
     @Nullable
@@ -144,6 +144,28 @@ public class PurchaseFragment extends Fragment {
         AutoCompleteTextView editCustomer = (AutoCompleteTextView)view.findViewById(R.id.editCustomer);
         editCustomer.setThreshold(1);
         editCustomer.setAdapter(autoComplete);
+
+        totalView = (TextView) view.findViewById(R.id.textTotal);
+        totalView.setText("மொத்தம் ₹: 0.00");
+
+        db.child("Items").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                float sum = 0;
+                //Basically, this says "For each DataSnapshot *Data* in dataSnapshot, do what's inside the method.
+                for (DataSnapshot suggestionSnapshot : dataSnapshot.getChildren()){
+                    Item item = suggestionSnapshot.getValue(Item.class);
+                    sum += item.getPrice();
+                }
+                totalView.setText("மொத்தம் ₹: " + sum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         return view;
     }

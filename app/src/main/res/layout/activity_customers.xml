@@ -10,7 +10,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/customersToolbar"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
         android:background="#FFC400"
         android:backgroundTint="#FFC400">
     </android.support.v7.widget.Toolbar>
@@ -26,7 +26,7 @@
         android:visibility="visible"
         app:backgroundTint="#FFAB00"
         app:elevation="4dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         app:layout_anchor="@id/customersToolbar"
         app:layout_anchorGravity="bottom|end"
         android:layout_alignParentTop="true"

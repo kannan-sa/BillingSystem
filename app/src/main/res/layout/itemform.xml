@@ -9,170 +9,182 @@
     android:layout_marginBottom="25dp"
     >
 
-    <TextView
-        android:id="@+id/labelTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="New Item"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:id="@+id/layoutID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/labelTitle"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
         <NumberPicker
             android:id="@+id/digitOne"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/labelName"
-            android:layout_alignRight="@+id/labelName"
-            android:layout_below="@+id/cmdCancel"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content" />
 
         <NumberPicker
             android:id="@+id/dightTwo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/digitOne"
-            android:layout_alignBottom="@+id/digitOne"
-            android:layout_toEndOf="@+id/digitOne"
-            android:layout_toRightOf="@+id/digitOne"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content" />
 
         <NumberPicker
             android:id="@+id/digitThree"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/dightTwo"
-            android:layout_alignBottom="@+id/dightTwo"
-            android:layout_toEndOf="@+id/dightTwo"
-            android:layout_toRightOf="@+id/dightTwo"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Infos"
-        android:orientation="vertical"
-        android:layout_below="@+id/layoutID">
+        android:layout_below="@+id/layoutID"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:stretchColumns="*"
+        >
 
-        <TextView
-            android:id="@+id/labelName"
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/labelTitle"
-            android:text="Name:" />
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/editName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/labelName"
-            android:ems="10"
-            android:hint="Name..."
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/labelQuantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/editName"
-            android:layout_marginTop="11dp"
-            android:text="Quantity:" />
-
-        <EditText
-            android:id="@+id/editQuantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/labelQuantity"
-            android:ems="10"
-            android:hint="Quantity..."
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:id="@+id/labelUnitPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/editQuantity"
-            android:layout_marginTop="12dp"
-            android:text="Unit Price:" />
-
-        <EditText
-            android:id="@+id/editPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/labelUnitPrice"
-            android:ems="10"
-            android:hint="Price..."
-            android:inputType="numberDecimal" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/cmdCancel"
+            <TextView
+                android:id="@+id/labelName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/editPrice"
-                android:layout_weight="1"
+                android:layout_gravity="start|center"
+                android:text="பொருள்:" />
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="பொருள்..."
+                android:inputType="textPersonName" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/labelQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:text="அளவு:" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editQuantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".21"
+                    android:ems="10"
+                    android:hint="அளவு..."
+                    android:inputType="numberDecimal"
+                    android:text="1.0" />
+
+                <Button
+                    android:id="@+id/incQnt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".11"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/decQnt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".11"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/labelUnitPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:text="விலை ₹:" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".21"
+                    android:ems="10"
+                    android:hint="விலை..."
+                    android:inputType="numberDecimal"
+                    android:text="1.0" />
+                <Button
+                    android:id="@+id/incPrc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".11"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/decPrc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".11"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1.0"
+            >
+            <Button
+                android:id="@+id/cmdCancel"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:onClick="CancelItem"
                 android:text="Cancel" />
 
             <Button
                 android:id="@+id/cmdSave"
-                android:layout_width="match_parent"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/cmdCancel"
-                android:layout_alignBottom="@+id/cmdCancel"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1"
                 android:onClick="SaveItem"
                 android:text="Save" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>

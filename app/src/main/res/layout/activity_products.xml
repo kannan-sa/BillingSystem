@@ -10,7 +10,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/productsToolbar"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
         android:background="#8BC34A"
         android:backgroundTint="#8BC34A">
     </android.support.v7.widget.Toolbar>
@@ -26,7 +26,7 @@
         android:visibility="visible"
         app:backgroundTint="#689F38"
         app:elevation="4dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         app:layout_anchor="@id/productsToolbar"
         app:layout_anchorGravity="bottom|end"
         android:layout_alignParentTop="true"
