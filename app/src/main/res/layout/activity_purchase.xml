@@ -10,10 +10,13 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/purchaseToolbar"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="70dp"
         android:background="#039BE5"
         android:backgroundTint="#039BE5">
+
     </android.support.v7.widget.Toolbar>
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/printRecipt"
@@ -26,7 +29,7 @@
         android:visibility="visible"
         app:backgroundTint="#0288D1"
         app:elevation="4dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         app:layout_anchor="@id/purchaseToolbar"
         app:layout_anchorGravity="bottom|end"
 
@@ -65,4 +68,62 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:onClick="SetDate"
+        android:text="TextView"
+        android:textAllCaps="false"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textDate"
+        android:layout_alignBottom="@+id/textDate"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/textDate"
+        android:layout_toRightOf="@+id/textDate"
+        android:onClick="SetTime"
+        android:text="TextView"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textDate"
+        android:layout_marginRight="5dp"
+        android:gravity="end"
+        android:text="மொத்தம் ₹: 5000"
+        android:textAlignment="textEnd"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <AutoCompleteTextView
+        android:id="@+id/editCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/itemsView"
+        android:layout_alignLeft="@+id/textDate"
+        android:layout_alignStart="@+id/textDate"
+        android:layout_toLeftOf="@+id/printRecipt"
+        android:layout_toStartOf="@+id/printRecipt"
+        android:text="Default"
+        android:textColor="@color/cardview_light_background" />
+
 </RelativeLayout>

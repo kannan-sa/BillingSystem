@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_marginBottom="2dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="2dp">
 
         <TextView
             android:id="@+id/textName"
@@ -22,18 +22,17 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="10dp"
-            android:gravity="start"
+            android:gravity="start|center"
             android:text="TextView"
             android:textAlignment="textStart"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:paddingBottom="5dp">
 
         <TextView
@@ -45,6 +44,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="17dp"
             android:layout_marginStart="10dp"
+            android:gravity="start|center"
             android:text="000"
             android:textSize="15sp" />
 
@@ -57,6 +57,7 @@
             android:layout_marginRight="19dp"
             android:layout_toLeftOf="@+id/textPrice"
             android:layout_toStartOf="@+id/textPrice"
+            android:gravity="center"
             android:layout_weight="0.21"
             android:text="000"
             android:textSize="15sp" />
@@ -69,7 +70,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:gravity="end"
+            android:gravity="end|center"
             android:text="$ 50"
             android:textAlignment="textEnd"
             android:textSize="15sp"

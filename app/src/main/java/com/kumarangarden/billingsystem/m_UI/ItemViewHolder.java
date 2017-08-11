@@ -31,7 +31,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     public void Initialize(Item item)
     {
         name.setText(item.Name);
-        quantity.setText(item.Quantity + " x ₹: " + item.UnitPrice);
+        quantity.setText("₹: " + item.UnitPrice + " x " + item.Quantity);
         id.setText(item.ID);
         price.setText("₹: " + item.getPrice());
     }

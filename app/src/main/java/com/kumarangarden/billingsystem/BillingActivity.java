@@ -85,4 +85,13 @@ public class BillingActivity extends AppCompatActivity {
     void CancelCustomer(View view)  {
         customersFragment.CancelCustomer(view);
     }
+
+    void SetDate(View view)
+    {
+        purchaseFragment.SetDate(view);
+    }
+    void SetTime(View view)
+    {
+        purchaseFragment.SetTime(view);
+    }
 }

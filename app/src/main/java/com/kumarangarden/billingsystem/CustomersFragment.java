@@ -72,7 +72,7 @@ public class CustomersFragment extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                ProductViewHolder holder = (ProductViewHolder) viewHolder;
+                CustomerViewHolder holder = (CustomerViewHolder) viewHolder;
                 Toast.makeText(view.getContext(), holder.getName() + " Removed", Toast.LENGTH_SHORT).show();
 
                 //Remove swiped item from list and notify the RecyclerView
