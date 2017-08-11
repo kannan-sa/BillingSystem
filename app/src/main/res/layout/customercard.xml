@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="?android:attr/textColorHintInverse"
-    app:cardBackgroundColor="@color/cardview_dark_background">
+    app:cardBackgroundColor="@color/cardview_light_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
+        android:orientation="vertical"
         android:paddingBottom="5dp">
 
         <TextView
@@ -31,8 +31,8 @@
             android:id="@+id/textPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:layout_marginLeft="5dp"
+            android:gravity="end"
             android:text="000-000-0000"
             android:textAlignment="textEnd"
             android:textSize="14sp"

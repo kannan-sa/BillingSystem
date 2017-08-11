@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cardview_compat_inset_shadow">5dp</dimen>
+    <item name="form_row_first_weight" format="float" type="dimen">0.4</item>
+    <item name="form_row_second_weight" format="float" type="dimen">0.18</item>
 </resources>

@@ -17,26 +17,6 @@
     </android.support.v7.widget.Toolbar>
 
 
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/printRecipt"
-        android:layout_width="70dp"
-        android:layout_height="63dp"
-        android:alpha=".85"
-        android:elevation="4dp"
-        android:onClick="AddItem"
-        android:src="@drawable/ic_action_print"
-        android:visibility="visible"
-        app:backgroundTint="#0288D1"
-        app:elevation="4dp"
-        android:layout_marginTop="40dp"
-        app:layout_anchor="@id/purchaseToolbar"
-        app:layout_anchorGravity="bottom|end"
-
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/addItem"
-        android:layout_alignStart="@+id/addItem" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/itemsView"
         android:layout_width="match_parent"
@@ -48,6 +28,25 @@
         android:layout_alignBottom="@+id/addItem"
         android:layout_below="@+id/purchaseToolbar">
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/printRecipt"
+        android:layout_width="70dp"
+        android:layout_height="63dp"
+        android:layout_alignLeft="@+id/addItem"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/addItem"
+        android:layout_marginTop="40dp"
+        android:alpha=".85"
+        android:elevation="4dp"
+        android:onClick="AddItem"
+        android:src="@drawable/ic_action_print"
+        android:visibility="visible"
+        app:backgroundTint="#0288D1"
+
+        app:elevation="4dp"
+        app:layout_anchor="@id/purchaseToolbar"
+        app:layout_anchorGravity="bottom|end" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addItem"

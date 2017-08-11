@@ -53,44 +53,44 @@ public class BillingActivity extends AppCompatActivity {
         });
     }
 
-    void AddProduct(View view)
+    public void AddProduct(View view)
     {
         productsFragment.AddProduct(view);
     }
-    void CancelProduct(View view)  {
+    public void CancelProduct(View view)  {
         productsFragment.CancelProduct(view);
     }
-    void SaveProduct(View view) {
+    public void SaveProduct(View view) {
         productsFragment.SaveProduct(view);
     }
 
-    void AddItem(View view)
+    public void AddItem(View view)
     {
         purchaseFragment.AddItem(view);
     }
-    void SaveItem(View view) {
+    public void SaveItem(View view) {
         purchaseFragment.SaveItem(view);
     }
-    void CancelItem(View view)  {
+    public void CancelItem(View view)  {
         purchaseFragment.CancelItem(view);
     }
 
-    void AddCustomer(View view)
+    public void AddCustomer(View view)
     {
         customersFragment.AddCustomer(view);
     }
-    void SaveCustomer(View view) {
+    public void SaveCustomer(View view) {
         customersFragment.SaveCustomer(view);
     }
-    void CancelCustomer(View view)  {
+    public void CancelCustomer(View view)  {
         customersFragment.CancelCustomer(view);
     }
 
-    void SetDate(View view)
+    public void SetDate(View view)
     {
         purchaseFragment.SetDate(view);
     }
-    void SetTime(View view)
+    public void SetTime(View view)
     {
         purchaseFragment.SetTime(view);
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="?android:attr/textColorHintInverse"
-    app:cardBackgroundColor="@color/cardview_dark_background">
+    app:cardBackgroundColor="@color/cardview_light_background">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,8 +57,8 @@
             android:layout_marginRight="19dp"
             android:layout_toLeftOf="@+id/textPrice"
             android:layout_toStartOf="@+id/textPrice"
-            android:gravity="center"
             android:layout_weight="0.21"
+            android:gravity="center"
             android:text="000"
             android:textSize="15sp" />
 
