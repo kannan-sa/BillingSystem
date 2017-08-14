@@ -9,37 +9,50 @@
     android:layout_marginBottom="25dp"
     >
 
-    <LinearLayout
-        android:id="@+id/layoutID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-
-        <NumberPicker
-            android:id="@+id/digitOne"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <NumberPicker
-            android:id="@+id/dightTwo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <NumberPicker
-            android:id="@+id/digitThree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/layoutID">
+        >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/labelID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID:"
+                android:layout_gravity="start|center"
+                />
+
+            <LinearLayout
+                android:id="@+id/layoutID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <NumberPicker
+                    android:id="@+id/digitOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <NumberPicker
+                    android:id="@+id/dightTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <NumberPicker
+                    android:id="@+id/digitThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"

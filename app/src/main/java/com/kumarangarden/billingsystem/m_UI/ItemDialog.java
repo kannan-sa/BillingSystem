@@ -58,17 +58,15 @@ public class ItemDialog extends Dialog {
         digit1 = (NumberPicker) findViewById(R.id.digitOne);
         digit1.setMinValue(0);
         digit1.setMaxValue(9);
-        digit1.setOnValueChangedListener(digitChangeListener);
 
         digit2 = (NumberPicker) findViewById(R.id.dightTwo);
         digit2.setMinValue(0);
         digit2.setMaxValue(9);
-        digit2.setOnValueChangedListener(digitChangeListener);
 
         digit3 = (NumberPicker) findViewById(R.id.digitThree);
         digit3.setMinValue(0);
         digit3.setMaxValue(9);
-        digit3.setOnValueChangedListener(digitChangeListener);
+
 
         db = FirebaseDatabase.getInstance().getReference();
 
@@ -123,13 +121,25 @@ public class ItemDialog extends Dialog {
             }
         });
 
+        //--
+
+        InitNewDigits();
+
+        //--
+
+        digit1.setOnValueChangedListener(digitChangeListener);
+        digit2.setOnValueChangedListener(digitChangeListener);
+        digit3.setOnValueChangedListener(digitChangeListener);
+    }
+
+    private void InitNewDigits() {
     }
 
     NumberPicker.OnValueChangeListener digitChangeListener = new NumberPicker.OnValueChangeListener() {
         @Override
         public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
             String id = digit1.getValue() + "" + digit2.getValue() + "" + digit3.getValue();
-            Query queryRef = db.child("Products").orderByChild("ID").equalTo(id);
+            Query queryRef = db.child("Products").orderByKey().equalTo(id);
             queryRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot snapshot, String previousChild) {
@@ -182,7 +192,7 @@ public class ItemDialog extends Dialog {
         item.Name = name.getText().toString();
         item.Quantity = Float.parseFloat(quantity.getText().toString());
         item.UnitPrice = Float.parseFloat(price.getText().toString());
-        item.ID = digit1.getValue() + "" + digit2.getValue() + "" + digit3.getValue();
+        item.SetID(digit1.getValue() + "" + digit2.getValue() + "" + digit3.getValue());
         return item;
     }
 
@@ -204,5 +214,13 @@ public class ItemDialog extends Dialog {
         name.setText("");
         quantity.setText("1.0");
         price.setText("1.0");
+    }
+
+    static int Digit(int a, int b) {
+        int i, digit=1;
+        for(i=b-1; i>0; i++)
+            digit = digit*10;
+        digit = (a/digit) % 10;
+        return digit;
     }
 }

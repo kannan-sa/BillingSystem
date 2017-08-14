@@ -28,12 +28,12 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         return name.getText().toString();
     }
 
-    public void Initialize(Item item)
+    public void Initialize(Item item, int position)
     {
-        name.setText(item.Name);
+        name.setText((position +1) + ". " + item.Name);
         quantity.setText("₹: " + item.UnitPrice + " x " + item.Quantity);
-        id.setText(item.ID);
-        price.setText("₹: " + item.getPrice());
+        id.setText(item.GetID());
+        price.setText("₹: " + item.GetNetPrice());
     }
 
 }

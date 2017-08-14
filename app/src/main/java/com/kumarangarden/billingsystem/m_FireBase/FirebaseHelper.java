@@ -32,7 +32,9 @@ public class FirebaseHelper {
         {
             try
             {
-                db.child("Products").push().setValue(product);
+                //db.child("Products").push().setValue(product);
+                db.child("Products").child(product.GetId()).setValue(product);
+
                 saved = true;
             }catch (DatabaseException e)
             {
@@ -51,7 +53,8 @@ public class FirebaseHelper {
         {
             try
             {
-                db.child("Items").push().setValue(item);
+                //db.child("Items").push().setValue(item);
+                db.child("Items").child(item.GetID()).setValue(item);
                 saved = true;
             }catch (DatabaseException e)
             {
@@ -70,7 +73,8 @@ public class FirebaseHelper {
         {
             try
             {
-                db.child("Customers").push().setValue(customer);
+                //db.child("Customers").push().setValue(customer);
+                db.child("Customers").child(customer.GetName()).setValue(customer);
                 saved = true;
             }catch (DatabaseException e)
             {

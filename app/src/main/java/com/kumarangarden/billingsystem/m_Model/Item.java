@@ -6,11 +6,20 @@ package com.kumarangarden.billingsystem.m_Model;
 
 public class Item {
     public String Name;
-    public String ID;
     public  float Quantity;
     public  float UnitPrice;
 
-    public float getPrice() {
+    private String id;
+
+    public String GetID() {
+        return id;
+    }
+
+    public void SetID(String id) {
+        this.id = id;
+    }
+
+    public float GetNetPrice() {
         return Quantity * UnitPrice;
     }
 }

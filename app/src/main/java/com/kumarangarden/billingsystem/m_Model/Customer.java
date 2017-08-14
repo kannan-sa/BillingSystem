@@ -5,7 +5,16 @@ package com.kumarangarden.billingsystem.m_Model;
  */
 
 public class Customer {
-    public String Name;
+
+    private String Name;
     public String Phone;
     public String Address;
+
+    public String GetName() {
+        return Name;
+    }
+
+    public void SetName(String name) {
+        Name = name;
+    }
 }

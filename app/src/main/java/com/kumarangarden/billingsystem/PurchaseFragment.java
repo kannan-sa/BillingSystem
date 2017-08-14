@@ -2,6 +2,7 @@ package com.kumarangarden.billingsystem;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,9 +12,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -74,13 +75,26 @@ public class PurchaseFragment extends Fragment {
                 R.layout.itemcard, ItemViewHolder.class, db.child("Items").getRef()) {
             @Override
             protected void populateViewHolder(ItemViewHolder holder, final Item item, final int position) {
-                holder.Initialize(item);
+                DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
+                item.SetID(databaseReference.getKey());
+                holder.Initialize(item, position);
+                /*
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        //Intent intent = new Intent(view.getContext(), ItemActivity.class);
+                        //view.getContext().startActivity(intent);
+                        return false;
+                    }
+                });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //Intent intent = new Intent(view.getContext(), ItemActivity.class);
+                        //view.getContext().startActivity(intent);
                         Toast.makeText(view.getContext(), "Touched  " + item.Name, Toast.LENGTH_LONG).show();
                     }
-                });
+                });*/
             }
         };
 
@@ -141,7 +155,7 @@ public class PurchaseFragment extends Fragment {
                 //Basically, this says "For each DataSnapshot *Data* in dataSnapshot, do what's inside the method.
                 for (DataSnapshot suggestionSnapshot : dataSnapshot.getChildren()){
                     //Get the suggestion by childing the key of the string you want to get.
-                    String suggestion = suggestionSnapshot.child("Name").getValue(String.class);
+                    String suggestion = suggestionSnapshot.getKey(); //suggestionSnapshot.child("Name").getValue(String.class);
                     //Add the retrieved string to the list
                     autoComplete.add(suggestion);
                 }
@@ -163,12 +177,15 @@ public class PurchaseFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 float sum = 0;
+                int i = 0;
                 //Basically, this says "For each DataSnapshot *Data* in dataSnapshot, do what's inside the method.
                 for (DataSnapshot suggestionSnapshot : dataSnapshot.getChildren()){
                     Item item = suggestionSnapshot.getValue(Item.class);
-                    sum += item.getPrice();
+                    sum += item.GetNetPrice();
+                    i++;
                 }
-                totalView.setText("மொத்தம் ₹: " + sum);
+                totalView.setText( i + " பொருள் ₹: " + sum);
+                firebaseRecyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -180,13 +197,27 @@ public class PurchaseFragment extends Fragment {
         handler = new Handler();
         bottomBar = (BottomBar) container.findViewById(R.id.bottomBar);
 
+        /*
         totalView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    holding = true;
                     ScheduleStateChange();
-                else if(event.getAction() == MotionEvent.ACTION_UP)
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    holding = false;
                     handler.removeCallbacksAndMessages(null);
+                }
+                return false;
+            }
+        });*/
+
+        Toolbar toolbar =(Toolbar) view.findViewById(R.id.purchaseToolbar);
+        toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToggleMode();
                 return false;
             }
         });
@@ -199,24 +230,28 @@ public class PurchaseFragment extends Fragment {
     }
     public void ScheduleStateChange()
     {
-        holding = true;
+
         handler.postDelayed(new Runnable() {
             public void run() {
-                if(holding)
-                    bottomBar.setVisibility(bottomBar.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE );
-
-                int bottomBarState = bottomBar.getVisibility();
-
-                SetAppMode(bottomBarState);
-
-                SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext());
-                SharedPreferences.Editor editor = saved_values.edit();
-                editor.putInt("ONLY_PURCHASE",bottomBarState);
-                editor.commit();
-
-                holding = false;
+                if(holding) {
+                    ToggleMode();
+                    holding = false;
+                }
             }
         }, DELAY);
+    }
+
+    public void ToggleMode() {
+        bottomBar.setVisibility(bottomBar.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
+
+        int bottomBarState = bottomBar.getVisibility();
+
+        SetAppMode(bottomBarState);
+
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(view.getContext().getApplicationContext());
+        SharedPreferences.Editor editor = saved_values.edit();
+        editor.putInt("ONLY_PURCHASE", bottomBarState);
+        editor.commit();
     }
 
     public void SetAppMode(int bottomBarState) {

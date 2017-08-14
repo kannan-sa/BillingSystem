@@ -32,7 +32,7 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
     public  void Initialize(Product product)
     {
         name.setText(product.Name);
-        id.setText(product.ID);
+        id.setText(product.GetId());
         price.setText("₹: " + product.Price);
     }
 }

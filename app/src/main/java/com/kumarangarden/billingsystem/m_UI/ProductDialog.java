@@ -4,7 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.R;
 import com.kumarangarden.billingsystem.m_Model.Product;
 
@@ -17,6 +24,7 @@ public class ProductDialog extends Dialog {
     public EditText id;
     public EditText price;
 
+
     public ProductDialog(@NonNull Context context) {
         super(context);
     }
@@ -25,6 +33,25 @@ public class ProductDialog extends Dialog {
         name = (EditText) findViewById(R.id.editName);
         id = (EditText) findViewById(R.id.editID);
         price = (EditText) findViewById(R.id.editPrice);
+
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        Query queryRef = db.child("Products").orderByKey();
+
+        queryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long nxid = dataSnapshot.getChildrenCount() + 1;
+                id.setText(String.format("%03d", nxid));
+                Toast.makeText(getContext(), id +"" ,Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     public String getIsValid() {
@@ -43,7 +70,7 @@ public class ProductDialog extends Dialog {
     public Product getProduct() {
         Product product = new Product();
         product.Name = name.getText().toString();
-        product.ID = id.getText().toString();
+        product.SetId(id.getText().toString());
         product.Price = Float.parseFloat(price.getText().toString());
         return product;
     }

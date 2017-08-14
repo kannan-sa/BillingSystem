@@ -44,7 +44,7 @@ public class CustomerDialog extends Dialog {
 
     public Customer getCustomer() {
         Customer customer = new Customer();
-        customer.Name = name.getText().toString();
+        customer.SetName(name.getText().toString());
         customer.Phone = phone.getText().toString();
         customer.Address = address.getText().toString();
         return customer;

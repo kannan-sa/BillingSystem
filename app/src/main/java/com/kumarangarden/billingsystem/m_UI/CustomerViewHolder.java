@@ -29,7 +29,7 @@ public class CustomerViewHolder extends RecyclerView.ViewHolder  {
 
     public void Initialize(Customer customer)
     {
-        name.setText(customer.Name);
+        name.setText(customer.GetName());
         phone.setText(customer.Phone);
         address.setText(customer.Address);
     }

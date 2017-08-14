@@ -25,6 +25,14 @@
             </intent-filter>
         </activity>
 
+        <!--activity android:name=".ItemActivity"
+            android:parentActivityName=".MainActivity" -->
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <!--meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity-->
+        s
         <receiver android:name=".BootReciever">
             <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

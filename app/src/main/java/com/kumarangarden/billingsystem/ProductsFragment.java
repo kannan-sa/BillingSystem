@@ -46,6 +46,8 @@ public class ProductsFragment extends Fragment {
                 R.layout.productcard, ProductViewHolder.class, db.child("Products").getRef()) {
             @Override
             protected void populateViewHolder(ProductViewHolder holder, final Product product, final int position) {
+                DatabaseReference dbRef = firebaseRecyclerAdapter.getRef(position);
+                product.SetId(dbRef.getKey());
                 holder.Initialize(product);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

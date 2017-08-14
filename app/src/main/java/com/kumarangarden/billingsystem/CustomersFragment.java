@@ -48,11 +48,13 @@ public class CustomersFragment extends Fragment {
                 R.layout.customercard, CustomerViewHolder.class, db.child("Customers").getRef()) {
             @Override
             protected void populateViewHolder(CustomerViewHolder holder, final Customer customer, final int position) {
+                DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
+                customer.SetName(databaseReference.getKey());
                 holder.Initialize(customer);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(view.getContext(), "Touched  " + customer.Name, Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), "Touched  " + customer.GetName(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -113,7 +115,7 @@ public class CustomersFragment extends Fragment {
             if(!helper.save(customer))
                 toastMessage ="Failed Saving";
             newCustomer.clear();
-            toastMessage = customer.Name + " Added";
+            toastMessage = customer.GetName() + " Added";
         }
 
         Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
