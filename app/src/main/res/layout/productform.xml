@@ -89,7 +89,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:onClick="CancelProduct"
-                android:text="Cancel" />
+                android:text="Cancel"
+                android:backgroundTint="#aa0000"
+                android:drawableLeft="@drawable/ic_cancel_black_18dp"
+                android:textColor="@color/cardview_light_background" />
+
 
             <Button
                 android:id="@+id/cmdSave"
@@ -97,7 +101,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:onClick="SaveProduct"
-                android:text="Save" />
+                android:text="Save"
+                android:drawableLeft="@drawable/ic_check_circle_black_18dp"
+                android:backgroundTint="#00aa00"
+                android:textColor="@color/cardview_light_background" />
+
         </TableRow>
     </TableLayout>
 

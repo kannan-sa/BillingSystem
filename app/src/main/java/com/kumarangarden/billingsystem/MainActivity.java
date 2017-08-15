@@ -1,5 +1,6 @@
 package com.kumarangarden.billingsystem;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,6 +8,7 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     ProductsFragment productsFragment;
     CustomersFragment customersFragment;
     BottomBar bottomBar;
+    Dialog confirm;
     static boolean initialized;
 
     @Override
@@ -24,10 +27,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        confirm = new Dialog(this);
+        confirm.setContentView(R.layout.dialog_confirm);
+        confirm.setTitle("Confirm");
+
         if(!initialized) {
             initialized = true;
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
+
         purchaseFragment = new PurchaseFragment();
         productsFragment = new ProductsFragment();
         customersFragment = new CustomersFragment();
@@ -55,6 +63,21 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int bottomBarState  =  saved_values.getInt("ONLY_PURCHASE", 0);
         bottomBar.setVisibility(bottomBarState == View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    public void ConfirmPrint(View view) {
+        confirm.show();
+    }
+
+    public void ClearItems(View view) {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        db.child("Items").removeValue();
+        confirm.cancel();
+    }
+
+    public void PrintReceipt(View view) {
+        //Printing Procedures..
+        confirm.cancel();
     }
 
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*">
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textBlank"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="உறுதி செய்யவும்"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+
+        <Button
+            android:id="@+id/cmdCancel"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:backgroundTint="#990000"
+            android:drawableLeft="@drawable/ic_cancel_black_18dp"
+            android:onClick="ClearItems"
+            android:text="புதுப்பிக்கவும்"
+            android:textColor="@color/cardview_light_background" />
+
+        <Button
+            android:id="@+id/cmdSave"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:backgroundTint="#00aa00"
+            android:drawableLeft="@drawable/ic_check_circle_black_18dp"
+            android:onClick="PrintReceipt"
+            android:text="அச்சிடவூம்"
+            android:textColor="@color/cardview_light_background" />
+    </TableRow>
+
+</TableLayout>

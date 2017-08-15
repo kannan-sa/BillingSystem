@@ -42,7 +42,6 @@ public class ProductDialog extends Dialog {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long nxid = dataSnapshot.getChildrenCount() + 1;
                 id.setText(String.format("%03d", nxid));
-                Toast.makeText(getContext(), id +"" ,Toast.LENGTH_LONG).show();
             }
 
             @Override
