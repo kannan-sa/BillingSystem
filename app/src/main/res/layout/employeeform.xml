@@ -17,7 +17,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/labelName"
@@ -32,6 +32,26 @@
                 android:ems="10"
                 android:hint="Name..."
                 android:inputType="textPersonName" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textWage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wage" />
+
+            <EditText
+                android:id="@+id/editWage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Wage..."
+                android:inputType="numberDecimal" />
         </TableRow>
 
         <TableRow
@@ -84,14 +104,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:onClick="CancelCustomer"
+                android:onClick="CancelEmployee"
                 android:text="Cancel" />
 
             <Button
                 android:id="@+id/cmdSave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:onClick="SaveCustomer"
+                android:onClick="SaveEmployee"
                 android:layout_weight="0.5"
                 android:text="Save" />
 

@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.kumarangarden.billingsystem.m_Model.Customer;
+import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Model.Product;
 
@@ -75,6 +76,26 @@ public class FirebaseHelper {
             {
                 //db.child("Customers").push().setValue(customer);
                 db.child("Customers").child(customer.GetName()).setValue(customer);
+                saved = true;
+            }catch (DatabaseException e)
+            {
+                e.printStackTrace();
+                saved = true;
+            }
+        }
+        return  saved;
+    }
+
+    public Boolean save(Employee employee)
+    {
+        if(employee == null)
+            saved = false;
+        else
+        {
+            try
+            {
+                //db.child("Customers").push().setValue(customer);
+                db.child("Employees").child(employee.GetName()).setValue(employee);
                 saved = true;
             }catch (DatabaseException e)
             {

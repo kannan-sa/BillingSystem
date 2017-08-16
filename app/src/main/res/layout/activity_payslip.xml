@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/customersToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#E53935"
+        android:backgroundTint="#E53935">
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/employeesView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/addCustomer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/customersToolbar"
+        android:layout_weight="0.87"></android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/printProducts"
+        android:layout_width="70dp"
+        android:layout_height="63dp"
+        android:alpha=".85"
+        android:elevation="4dp"
+        android:onClick="AddItem"
+        android:src="@drawable/ic_action_print"
+        android:visibility="visible"
+        app:backgroundTint="#C62828"
+        app:elevation="4dp"
+        android:layout_marginTop="40dp"
+        app:layout_anchor="@id/customersToolbar"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/addCustomer"
+        android:layout_alignStart="@+id/addCustomer" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addCustomer"
+        android:layout_width="70dp"
+        android:layout_height="63dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="59dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:alpha=".75"
+        android:elevation="4dp"
+        android:onClick="AddEmployee"
+        android:src="@drawable/ic_action_add"
+        android:visibility="visible"
+        app:backgroundTint="#C62828"
+        app:elevation="4dp"
+        app:srcCompat="@android:string/yes"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

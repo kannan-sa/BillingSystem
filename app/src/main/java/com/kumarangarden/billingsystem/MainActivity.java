@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     PurchaseFragment purchaseFragment;
     ProductsFragment productsFragment;
     CustomersFragment customersFragment;
+    PayslipFragment payslipFragment;
     BottomBar bottomBar;
     Dialog confirm;
     static boolean initialized;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         purchaseFragment = new PurchaseFragment();
         productsFragment = new ProductsFragment();
         customersFragment = new CustomersFragment();
-
+        payslipFragment = new PayslipFragment();
 
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_customers:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, customersFragment).commit();
                         break;
+                    case R.id.navigation_employees:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, payslipFragment).commit();
+                    break;
                 }
             }
         });
@@ -114,6 +118,18 @@ public class MainActivity extends AppCompatActivity {
     public void CancelCustomer(View view)  {
         customersFragment.CancelCustomer(view);
     }
+
+    public void AddEmployee(View view)
+    {
+        payslipFragment.AddEmployee(view);
+    }
+    public void SaveEmployee(View view) {
+        payslipFragment.SaveEmployee(view);
+    }
+    public void CancelEmployee(View view)  {
+        payslipFragment.CancelEmployee(view);
+    }
+
 
     public void SetDate(View view)
     {
