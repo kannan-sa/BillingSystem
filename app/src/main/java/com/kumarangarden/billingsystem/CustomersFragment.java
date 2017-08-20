@@ -51,10 +51,12 @@ public class CustomersFragment extends Fragment {
                 DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
                 customer.SetName(databaseReference.getKey());
                 holder.Initialize(customer);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        Toast.makeText(view.getContext(), "Touched  " + customer.GetName(), Toast.LENGTH_LONG).show();
+                    public boolean onLongClick(View v) {
+                        newCustomer.setCustomer(customer);
+                        newCustomer.show();
+                        return false;
                     }
                 });
             }

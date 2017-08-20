@@ -7,4 +7,8 @@
     <dimen name="float_bar_bottom_ex">60dp</dimen>
     <item name="form_row_first_weight" format="float" type="dimen">0.4</item>
     <item name="form_row_second_weight" format="float" type="dimen">0.18</item>
+
+    <dimen name="small">14sp</dimen>
+    <dimen name="medium">16sp</dimen>
+    <dimen name="large">18sp</dimen>
 </resources>

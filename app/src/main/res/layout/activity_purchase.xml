@@ -122,7 +122,7 @@
         android:layout_alignStart="@+id/textDate"
         android:layout_toLeftOf="@+id/printRecipt"
         android:layout_toStartOf="@+id/printRecipt"
-        android:text="Default"
+        android:text="பொது"
         android:textColor="@color/cardview_light_background" />
 
 </RelativeLayout>

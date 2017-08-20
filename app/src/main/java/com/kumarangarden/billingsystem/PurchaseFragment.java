@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,16 +80,18 @@ public class PurchaseFragment extends Fragment {
                 DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
                 item.SetID(databaseReference.getKey());
                 holder.Initialize(item, position);
-                /*
+
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        newItem.setItem(item);
+                        newItem.show();
                         //Intent intent = new Intent(view.getContext(), ItemActivity.class);
                         //view.getContext().startActivity(intent);
                         return false;
                     }
                 });
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+              /*  holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Intent intent = new Intent(view.getContext(), ItemActivity.class);
@@ -169,6 +173,22 @@ public class PurchaseFragment extends Fragment {
         AutoCompleteTextView editCustomer = (AutoCompleteTextView)view.findViewById(R.id.editCustomer);
         editCustomer.setThreshold(1);
         editCustomer.setAdapter(autoComplete);
+        editCustomer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                db.child("Commands/Name").setValue(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         totalView = (TextView) view.findViewById(R.id.textTotal);
         totalView.setText("மொத்தம் ₹: 0.00");
@@ -298,7 +318,7 @@ public class PurchaseFragment extends Fragment {
             toastMessage = item.Name + " Added";
         }
 
-        Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
     }
 
     public void SetDate(View view) {

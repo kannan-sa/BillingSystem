@@ -49,10 +49,12 @@ public class PayslipFragment extends Fragment {
                 DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
                 employee.SetName(databaseReference.getKey());
                 holder.Initialize(employee);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        Toast.makeText(view.getContext(), "Touched  " + employee.GetName(), Toast.LENGTH_LONG).show();
+                    public boolean onLongClick(View v) {
+                        newEmployee.setEmployee(employee);
+                        newEmployee.show();
+                        return false;
                     }
                 });
             }

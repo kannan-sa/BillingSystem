@@ -74,6 +74,13 @@ public class ProductDialog extends Dialog {
         return product;
     }
 
+    public void setProduct(Product product)
+    {
+        name.setText(product.Name);
+        id.setText(product.GetId());
+        price.setText(product.Price +"");
+    }
+
     public void clear() {
         name.setText("");
         id.setText("");

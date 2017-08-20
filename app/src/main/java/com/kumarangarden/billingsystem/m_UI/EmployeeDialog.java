@@ -55,6 +55,13 @@ public class EmployeeDialog extends Dialog {
         return employee;
     }
 
+    public void setEmployee(Employee employee)
+    {
+        name.setText(employee.GetName());
+        phone.setText(employee.Phone);
+        address.setText(employee.Address);
+    }
+
     public void clear() {
         name.setText("");
         phone.setText("");

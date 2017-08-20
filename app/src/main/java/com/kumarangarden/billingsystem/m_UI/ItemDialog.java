@@ -196,6 +196,23 @@ public class ItemDialog extends Dialog {
         return item;
     }
 
+    public void setItem(Item item)
+    {
+        name.setText(item.Name);
+        quantity.setText(item.Quantity + "");
+        price.setText(item.UnitPrice + "");
+        String id = item.GetID();
+
+        String digit = id.substring(0, Math.min(id.length(), 1));
+        digit1.setValue(Integer.parseInt(digit));
+
+        digit = id.substring(1, Math.min(id.length(), 2));
+        digit2.setValue(Integer.parseInt(digit));
+
+        digit = id.substring(2, Math.min(id.length(), 3));
+        digit3.setValue(Integer.parseInt(digit));
+    }
+
     public void Update(EditText editText, float update)
     {
 

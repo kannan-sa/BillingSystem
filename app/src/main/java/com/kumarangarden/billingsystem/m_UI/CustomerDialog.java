@@ -50,6 +50,13 @@ public class CustomerDialog extends Dialog {
         return customer;
     }
 
+    public void setCustomer(Customer customer)
+    {
+        name.setText(customer.GetName());
+        phone.setText(customer.Phone);
+        address.setText(customer.Address);
+    }
+
     public void clear() {
         name.setText("");
         phone.setText("");

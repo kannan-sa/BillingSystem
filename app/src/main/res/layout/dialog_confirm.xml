@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:backgroundTint="#990000"
-            android:drawableLeft="@drawable/ic_cancel_black_18dp"
+
             android:onClick="ClearItems"
             android:text="புதுப்பிக்கவும்"
             android:textColor="@color/cardview_light_background" />
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:backgroundTint="#00aa00"
-            android:drawableLeft="@drawable/ic_check_circle_black_18dp"
+
             android:onClick="PrintReceipt"
             android:text="அச்சிடவூம்"
             android:textColor="@color/cardview_light_background" />
