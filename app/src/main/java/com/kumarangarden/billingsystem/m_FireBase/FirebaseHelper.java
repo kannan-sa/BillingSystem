@@ -5,9 +5,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
+import com.kumarangarden.billingsystem.m_Model.Credit;
 import com.kumarangarden.billingsystem.m_Model.Customer;
 import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Model.Item;
+import com.kumarangarden.billingsystem.m_Model.Leave;
 import com.kumarangarden.billingsystem.m_Model.Product;
 
 import java.util.ArrayList;
@@ -106,4 +108,43 @@ public class FirebaseHelper {
         return  saved;
     }
 
+    public Boolean save(String name, Leave leave)
+    {
+        if(leave == null)
+            saved = false;
+        else
+        {
+            try
+            {
+                String key = "Leaves/" + name + "/" + leave.GetKey();
+                db.child(key).setValue(leave);
+                saved = true;
+            }catch (DatabaseException e)
+            {
+                e.printStackTrace();
+                saved = true;
+            }
+        }
+        return  saved;
+    }
+
+    public Boolean save(String name, Credit credit)
+    {
+        if(credit == null)
+            saved = false;
+        else
+        {
+            try
+            {
+                String key = "Credits/" + name + "/" + credit.GetKey();
+                db.child(key).setValue(credit);
+                saved = true;
+            }catch (DatabaseException e)
+            {
+                e.printStackTrace();
+                saved = true;
+            }
+        }
+        return  saved;
+    }
 }

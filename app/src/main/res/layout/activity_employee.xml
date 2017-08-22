@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TableLayout
@@ -11,18 +12,18 @@
             android:id="@+id/labelName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Name"
-            android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:weightSum="1">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:orientation="horizontal">
@@ -33,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:text="மாதம்:"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -42,11 +42,13 @@
                     android:id="@+id/numbermonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:orientation="horizontal">
@@ -57,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:text="ஆண்டு:"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -66,14 +67,17 @@
                     android:id="@+id/numberyear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    />
             </LinearLayout>
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/textWage"
@@ -84,7 +88,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/editWage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -93,16 +97,73 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/labelleave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="விடுப்பு:"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight=".6"
                 android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/addleave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:layout_gravity="end"
+                app:srcCompat="@drawable/ic_action_add" />
         </TableRow>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/leavesView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
+
+        </android.support.v7.widget.RecyclerView>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+
+
+            <TextView
+                android:id="@+id/labelcredit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="கடன்:"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6" />
+
+            <ImageButton
+                android:id="@+id/adddue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="0.2"
+                app:srcCompat="@drawable/ic_action_add" />
+        </TableRow>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/duesView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
     </TableLayout>
 
 
