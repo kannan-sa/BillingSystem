@@ -8,8 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.kumarangarden.billingsystem.R;
+import com.kumarangarden.billingsystem.m_Model.Credit;
 import com.kumarangarden.billingsystem.m_Model.Customer;
 import com.kumarangarden.billingsystem.m_Model.Leave;
 
@@ -27,6 +29,7 @@ public class LeaveDialog extends Dialog {
     public NumberPicker date;
     public EditText days;
     public EditText reason;
+    public TextView labelOperation;
 
     public Button save, cancel;
 
@@ -49,6 +52,7 @@ public class LeaveDialog extends Dialog {
             }
         });
 
+        labelOperation = (TextView) findViewById(R.id.labeldays);
     }
 
     public String getIsValid() {
@@ -72,12 +76,38 @@ public class LeaveDialog extends Dialog {
 
     public void setLeave(Leave leave) throws ParseException {
         String key = leave.GetKey();
-        SimpleDateFormat dest = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date r_date = dest.parse(key);
-        int t_date = r_date.getDate();
-        this.date.setValue(t_date);
+        String date = key.substring(key.length() - 2);
+        this.date.setValue(Integer.parseInt(date));
         days.setText(leave.days + "");
         reason.setText(leave.reason);
+    }
+
+
+    public Credit getCredit() {
+        Credit credit = new Credit();
+        //leave.SetName(name.getText().toString());
+        credit.amount = Float.parseFloat(days.getText().toString());
+        credit.reason = reason.getText().toString();
+        return credit;
+    }
+
+    public void setCredit(Credit credit) throws ParseException {
+        String key = credit.GetKey();
+        String date = key.substring(key.length() - 2);
+        this.date.setValue(Integer.parseInt(date));
+        days.setText(credit.amount + "");
+        reason.setText(credit.reason);
+    }
+    public void promptLeave()
+    {
+        labelOperation.setText("நாள்:");
+        show();
+    }
+
+    public void promptCredit()
+    {
+        labelOperation.setText("தொகை:");
+        show();
     }
 
     public void clear() {

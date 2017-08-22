@@ -23,25 +23,26 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/productsToolbar"
-        android:layout_weight="0.87"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="0.87"
+        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/printProducts"
         android:layout_width="70dp"
         android:layout_height="63dp"
+        android:layout_alignLeft="@+id/addProduct"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/addProduct"
+        android:layout_marginTop="40dp"
         android:alpha=".85"
         android:elevation="4dp"
         android:onClick="AddItem"
         android:src="@drawable/ic_action_print"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="#689F38"
         app:elevation="4dp"
-        android:layout_marginTop="40dp"
         app:layout_anchor="@id/productsToolbar"
-        app:layout_anchorGravity="bottom|end"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/addProduct"
-        android:layout_alignStart="@+id/addProduct" />
+        app:layout_anchorGravity="bottom|end" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addProduct"

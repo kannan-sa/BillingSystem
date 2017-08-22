@@ -52,6 +52,7 @@ public class EmployeeDialog extends Dialog {
         employee.SetName(name.getText().toString());
         employee.Phone = phone.getText().toString();
         employee.Address = address.getText().toString();
+        employee.Wage = Float.parseFloat(wage.getText().toString());
         return employee;
     }
 
@@ -60,11 +61,13 @@ public class EmployeeDialog extends Dialog {
         name.setText(employee.GetName());
         phone.setText(employee.Phone);
         address.setText(employee.Address);
+        wage.setText(employee.Wage + "");
     }
 
     public void clear() {
         name.setText("");
         phone.setText("");
         address.setText("");
+        wage.setText("");
     }
 }

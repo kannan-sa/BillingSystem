@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             >
 
             <TextView
@@ -31,20 +32,6 @@
                 android:textAlignment="textStart"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:layout_marginStart="25dp"
-            >
-
-            <TextView
-                android:id="@+id/labelTotal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="மொத்தம்:" />
 
             <TextView
                 android:id="@+id/textTotal"
@@ -52,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:gravity="end|right"
-                android:text="₹ 1200"
+                android:text="மொத்தம்: ₹ 1200"
                 android:textAlignment="textEnd"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -63,42 +50,23 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
             >
-
-            <TextView
-                android:id="@+id/labelDue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="பிடிப்பு:" />
 
             <TextView
                 android:id="@+id/textDue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right|end"
-                android:text="₹ 120" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:layout_marginStart="25dp"
-            >
-
-            <TextView
-                android:id="@+id/labelSalary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="மீதம்:" />
+                android:text="பிடிப்பு: ₹ 120" />
 
             <TextView
                 android:id="@+id/textSalary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
-                android:text="₹ 120" />
+                android:text="மீதம்: ₹ 120" />
+
         </TableRow>
 
     </TableLayout>

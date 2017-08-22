@@ -5,31 +5,28 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.kumarangarden.billingsystem.R;
-import com.kumarangarden.billingsystem.m_Model.Customer;
+import com.kumarangarden.billingsystem.m_Model.Credit;
 import com.kumarangarden.billingsystem.m_Model.Leave;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
- * Created by 11000257 on 8/22/2017.
+ * Created by kanna_000 on 22-08-2017.
  */
 
-public class LeaveViewHolder extends RecyclerView.ViewHolder {
+public class CreditViewHolder extends RecyclerView.ViewHolder {
     private TextView date, leaveText;
 
-    public LeaveViewHolder(View itemView) {
+    public CreditViewHolder(View itemView) {
         super(itemView);
         date = (TextView) itemView.findViewById(R.id.textDate);
         leaveText = (TextView) itemView.findViewById(R.id.textLeave);
     }
-    public void Initialize(Leave leave) throws ParseException {
-        String key = leave.GetKey();
+    public void Initialize(Credit credit) throws ParseException {
+        String key = credit.GetKey();
         String date = key.substring(key.length() - 2);
         this.date.setText(date); //"தேதி: " +
-        leaveText.setText( leave.days + " : "  + leave.reason);
+        leaveText.setText( "₹ " + credit.amount + " - "  + credit.reason);
     }
 
     public String GetName() {
