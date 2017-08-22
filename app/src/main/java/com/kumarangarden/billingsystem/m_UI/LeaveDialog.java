@@ -65,7 +65,7 @@ public class LeaveDialog extends Dialog {
     public Leave getLeave() {
         Leave leave = new Leave();
         //leave.SetName(name.getText().toString());
-        leave.days = Integer.parseInt(days.getText().toString());
+        leave.days = Float.parseFloat(days.getText().toString());
         leave.reason = reason.getText().toString();
         return leave;
     }

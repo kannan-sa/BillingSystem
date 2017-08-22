@@ -69,13 +69,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="ரத்து" />
+            android:backgroundTint="@color/colorCancel"
+            android:background="@color/colorCancel"
+            android:textColor="@color/cardview_light_background"
+            android:text="ரத்து"
+             />
 
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="சேர்த்து" />
+            android:backgroundTint="@color/colorOK"
+            android:background="@color/colorOK"
+            android:textColor="@color/cardview_light_background"
+            android:text="சேர்த்து"
+            />
     </TableRow>
 </TableLayout>

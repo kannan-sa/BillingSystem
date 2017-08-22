@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
@@ -17,9 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
-import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Model.Leave;
-import com.kumarangarden.billingsystem.m_UI.ItemDialog;
 import com.kumarangarden.billingsystem.m_UI.LeaveDialog;
 import com.kumarangarden.billingsystem.m_UI.LeaveViewHolder;
 
@@ -71,42 +70,36 @@ public class EmployeeActivity extends AppCompatActivity {
         helper = new FirebaseHelper(db);
 
 
-        String startDate = year.getValue() + "-" + (month.getValue() +1) + "-" + 1;
-        String endDate = year.getValue() + "-" + (month.getValue() +1) + "-" + 31;
+
 
         leavesView = (RecyclerView) findViewById(R.id.leavesView);
         leavesView.setLayoutManager(new LinearLayoutManager(this));
 
-        Query leavesQuery = db.child("Leaves/" + empName).orderByKey().startAt(startDate).endAt(endDate);
+        UpdateLeavesAndCredits();
 
-        leavesAdapter = new FirebaseRecyclerAdapter<Leave, LeaveViewHolder>(Leave.class,
-                R.layout.leave_card, LeaveViewHolder.class, leavesQuery.getRef()) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
             @Override
-            protected void populateViewHolder(LeaveViewHolder holder, final Leave item, final int position) {
-                DatabaseReference databaseReference = leavesAdapter.getRef(position);
-                item.SetKey(databaseReference.getKey());
-                try {
-                    holder.Initialize(item);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        try {
-                            newLeave.setLeave(item);
-                            newLeave.show();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                });
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                LeaveViewHolder holder = (LeaveViewHolder) viewHolder;
+                Toast.makeText(EmployeeActivity.this, holder.GetName() + " Removed", Toast.LENGTH_SHORT).show();
+
+                //Remove swiped item from list and notify the RecyclerView
+                final int position = viewHolder.getAdapterPosition();
+                DatabaseReference dbRef = leavesAdapter.getRef(position);
+                dbRef.removeValue();
             }
         };
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(leavesView);
 
-        leavesView.setAdapter(leavesAdapter);
+
 
         newLeave = new LeaveDialog(this);
         newLeave.setTitle("Leave");
@@ -143,5 +136,52 @@ public class EmployeeActivity extends AppCompatActivity {
             }
         });
 
+        month.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                UpdateLeavesAndCredits();
+            }
+        });
+
+        year.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                UpdateLeavesAndCredits();
+            }
+        });
+    }
+
+    private void UpdateLeavesAndCredits() {
+        String startDate = year.getValue() + "-" + (month.getValue() +1) + "-" + 1;
+        String endDate = year.getValue() + "-" + (month.getValue() +1) + "-" + 31;
+        Query leavesQuery = db.child("Leaves/" + employeeName.getText()).orderByKey().startAt(startDate).endAt(endDate);
+
+        leavesAdapter = new FirebaseRecyclerAdapter<Leave, LeaveViewHolder>(Leave.class,
+                R.layout.leave_card, LeaveViewHolder.class, leavesQuery.getRef()) {
+            @Override
+            protected void populateViewHolder(LeaveViewHolder holder, final Leave item, final int position) {
+                DatabaseReference databaseReference = leavesAdapter.getRef(position);
+                item.SetKey(databaseReference.getKey());
+                try {
+                    holder.Initialize(item);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        try {
+                            newLeave.setLeave(item);
+                            newLeave.show();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                });
+            }
+        };
+        Toast.makeText(this, leavesAdapter.getItemCount() + "" , Toast.LENGTH_LONG).show();
+        leavesView.setAdapter(leavesAdapter);
     }
 }

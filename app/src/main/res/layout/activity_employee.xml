@@ -119,6 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:layout_gravity="end"
+                android:backgroundTint="@color/colorOK"
+                android:background="@color/colorOK"
                 app:srcCompat="@drawable/ic_action_add" />
         </TableRow>
 
@@ -156,6 +158,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="0.2"
+                android:backgroundTint="@color/colorOK"
+                android:background="@color/colorOK"
                 app:srcCompat="@drawable/ic_action_add" />
         </TableRow>
 

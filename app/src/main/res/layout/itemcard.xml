@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="?android:attr/textColorHintInverse"
-    app:cardBackgroundColor="@color/cardview_light_background">
+    app:cardBackgroundColor="@color/cardview_light_background"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -31,7 +31,7 @@ public class BillingService extends Service {
 
             if(!initialized) {
                 initialized = true;
-                //firebaseDatabase.setPersistenceEnabled(true);
+                firebaseDatabase.setPersistenceEnabled(true);
             }
 
         db = firebaseDatabase.getReference();

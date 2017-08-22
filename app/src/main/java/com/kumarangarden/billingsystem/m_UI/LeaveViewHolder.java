@@ -34,4 +34,7 @@ public class LeaveViewHolder extends RecyclerView.ViewHolder {
         leaveText.setText( leave.days + " : "  + leave.reason);
     }
 
+    public String GetName() {
+        return date.getText().toString()  + leaveText.getText();
+    }
 }
