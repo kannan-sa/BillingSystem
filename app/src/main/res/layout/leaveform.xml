@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_margin="5dp">
 
     <TableRow
         android:layout_width="match_parent"
@@ -10,7 +11,8 @@
             android:id="@+id/labeldate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="தேதி:" />
 
@@ -28,12 +30,17 @@
             android:id="@+id/labeldays"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
             android:text="நாள்:" />
 
         <EditText
             android:id="@+id/editDays"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+
             android:ems="10"
             android:inputType="number"
             android:text="1" />
@@ -48,6 +55,9 @@
             android:id="@+id/labelreason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:text="காரணம்:" />
 
         <EditText
@@ -73,6 +83,7 @@
             android:background="@color/colorCancel"
             android:textColor="@color/cardview_light_background"
             android:text="ரத்து"
+            android:layout_margin="10dp"
              />
 
         <Button
@@ -84,6 +95,8 @@
             android:background="@color/colorOK"
             android:textColor="@color/cardview_light_background"
             android:text="சேர்த்து"
+            android:layout_margin="10dp"
+
             />
     </TableRow>
 </TableLayout>

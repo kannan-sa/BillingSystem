@@ -18,25 +18,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/labelstdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="தொடக்க தேதி:"
             android:textColor="@color/cardview_light_background" />
 
         <EditText
             android:id="@+id/editSTDate"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_weight="1"
             android:ems="10"
+            android:maxLength="2"
             android:inputType="number"
+            android:textColor="@color/cardview_light_background" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="வேலை நாட்கள்:"
+            android:textColor="@color/cardview_light_background" />
+        <EditText
+            android:id="@+id/editWorkDays"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:maxLength="2"
+            android:inputType="number"
+            android:textColor="@color/cardview_light_background" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignTop="@+id/printProducts">
+
+        <TextView
+            android:id="@+id/labelStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="TextView"
             android:textColor="@color/cardview_light_background" />
     </LinearLayout>
 

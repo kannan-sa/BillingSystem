@@ -30,19 +30,19 @@
         android:id="@+id/printProducts"
         android:layout_width="70dp"
         android:layout_height="63dp"
+        android:layout_alignLeft="@+id/addCustomer"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/addCustomer"
+        android:layout_marginTop="40dp"
         android:alpha=".85"
         android:elevation="4dp"
         android:onClick="AddItem"
         android:src="@drawable/ic_action_print"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:backgroundTint="#FFAB00"
         app:elevation="4dp"
-        android:layout_marginTop="40dp"
         app:layout_anchor="@id/customersToolbar"
-        app:layout_anchorGravity="bottom|end"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/addCustomer"
-        android:layout_alignStart="@+id/addCustomer" />
+        app:layout_anchorGravity="bottom|end" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addCustomer"

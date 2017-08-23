@@ -10,6 +10,8 @@ public class Employee {
     public String Address;
     public float Wage;
 
+    private float leaves, credits;
+
 
     public String GetName() {
         return Name;
@@ -19,15 +21,19 @@ public class Employee {
         Name = name;
     }
 
-    public float GetTotal() {
-        return  1500;
+    public float GetLeaves() {
+        return leaves;
     }
 
-    public float GetRemaining() {
-        return 180;
+    public void SetLeaves(float leaves) {
+        this.leaves = leaves;
     }
 
-    public float GetSalary() {
-        return 1200;
+    public float GetCredits() {
+        return credits;
+    }
+
+    public void SetCredits(float credits) {
+        this.credits = credits;
     }
 }

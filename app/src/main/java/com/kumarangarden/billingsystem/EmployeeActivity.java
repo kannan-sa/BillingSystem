@@ -255,6 +255,7 @@ public class EmployeeActivity extends AppCompatActivity {
                 });
             }
         };
+        leavesView.getRecycledViewPool().clear();
         leavesView.setAdapter(leavesAdapter);
 
         leavesQuery.addValueEventListener(new ValueEventListener() {
@@ -306,6 +307,7 @@ public class EmployeeActivity extends AppCompatActivity {
                 });
             }
         };
+        creditsView.getRecycledViewPool().clear();
         creditsView.setAdapter(creditsAdapter);
 
         creditsQuery.addValueEventListener(new ValueEventListener() {
