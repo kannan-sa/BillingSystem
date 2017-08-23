@@ -1,5 +1,6 @@
 package com.kumarangarden.billingsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -45,7 +46,7 @@ public class CustomersFragment extends Fragment {
         helper = new FirebaseHelper(db);
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Customer, CustomerViewHolder>(Customer.class,
-                R.layout.customercard, CustomerViewHolder.class, db.child("Customers").getRef()) {
+                R.layout.customercard, CustomerViewHolder.class, db.child("Customers").orderByPriority()) {
             @Override
             protected void populateViewHolder(CustomerViewHolder holder, final Customer customer, final int position) {
                 DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
@@ -59,11 +60,23 @@ public class CustomersFragment extends Fragment {
                         return false;
                     }
                 });
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), CustomerActivity.class);
+                        intent.putExtra("Name", customer.GetName());
+                        startActivity(intent);
+                    }
+                });
             }
         };
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+
         customersView = (RecyclerView) view.findViewById(R.id.customersView);
-        customersView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        customersView.setLayoutManager(mLayoutManager);
         customersView.setAdapter(firebaseRecyclerAdapter);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -71,12 +84,23 @@ public class CustomersFragment extends Fragment {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 Toast.makeText(view.getContext(), "on Move", Toast.LENGTH_SHORT).show();
+
                 return false;
+            }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                CustomerViewHolder holder = (CustomerViewHolder) viewHolder;
+                if(holder.getName().matches("பொது"))
+                    return 0;
+                return super.getSwipeDirs(recyclerView, viewHolder);
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 CustomerViewHolder holder = (CustomerViewHolder) viewHolder;
+                if(holder.getName().matches("பொது"))
+                    return;
                 Toast.makeText(view.getContext(), holder.getName() + " Removed", Toast.LENGTH_SHORT).show();
 
                 //Remove swiped item from list and notify the RecyclerView

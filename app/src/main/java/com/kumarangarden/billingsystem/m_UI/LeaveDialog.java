@@ -17,7 +17,9 @@ import com.kumarangarden.billingsystem.m_Model.Leave;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -53,6 +55,11 @@ public class LeaveDialog extends Dialog {
         });
 
         labelOperation = (TextView) findViewById(R.id.labeldays);
+    }
+
+    public  void setDateLimit(int max)
+    {
+        date.setMaxValue(max);
     }
 
     public String getIsValid() {
@@ -100,12 +107,14 @@ public class LeaveDialog extends Dialog {
     }
     public void promptLeave()
     {
+        setTitle("Leave");
         labelOperation.setText("நாள்:");
         show();
     }
 
     public void promptCredit()
     {
+        setTitle("Credit");
         labelOperation.setText("தொகை:");
         show();
     }

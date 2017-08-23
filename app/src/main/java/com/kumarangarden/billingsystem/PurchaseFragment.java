@@ -41,6 +41,7 @@ import com.roughike.bottombar.BottomBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kanna_000 on 09-08-2017.
@@ -144,7 +145,7 @@ public class PurchaseFragment extends Fragment {
         dateView = (TextView) view.findViewById(R.id.textDate);
         dateView.setText(currentDateandTime);
 
-        sdf = new SimpleDateFormat("HH:mm a");
+        sdf = new SimpleDateFormat("hh:mm a");
         currentDateandTime = sdf.format(c.getTime());
 
         timeView = (TextView) view.findViewById(R.id.textTime);
@@ -329,8 +330,13 @@ public class PurchaseFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 c.set(year, month, dayOfMonth);
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                String currentDateandTime = sdf.format(c.getTime());
-                dateView.setText(currentDateandTime);
+                String currentDate = sdf.format(c.getTime());
+                dateView.setText(currentDate);
+
+                String db_date = new SimpleDateFormat("yyyyMMdd").format(c.getTime());
+                db.child("Commands/Date").setValue(db_date);
+
+                MainActivity.dateSet = true;
             }
         },c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));
         datePickerDialog.show();
@@ -346,6 +352,11 @@ public class PurchaseFragment extends Fragment {
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
                 String currentDateandTime = sdf.format(c.getTime());
                 timeView.setText(currentDateandTime);
+
+                String db_time = new SimpleDateFormat("hh:mm:ss a").format(c.getTime());
+                db.child("Commands/Time").setValue(db_time);
+                MainActivity.timeSet = true;
+
             }
         }, c.get(Calendar.HOUR), c.get(Calendar.MINUTE), false);
         timePickerDialog.show();

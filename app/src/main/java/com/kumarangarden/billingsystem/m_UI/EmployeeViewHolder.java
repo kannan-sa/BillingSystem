@@ -20,7 +20,7 @@ import com.kumarangarden.billingsystem.m_Model.Leave;
  */
 
 public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
-    private TextView title, subText, total, salary;
+    private TextView title, subText, total, salary, detail;
 
     public EmployeeViewHolder(View itemView) {
         super(itemView);
@@ -29,6 +29,7 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
         total  = (TextView) itemView.findViewById(R.id.textTotal);
         subText = (TextView) itemView.findViewById(R.id.textSubText);
         salary = (TextView) itemView.findViewById(R.id.textSalary);
+        detail = (TextView) itemView.findViewById(R.id.textDetail);
     }
 
     public String getName() {
@@ -77,8 +78,8 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
                         float due = (leavesSum * employee.Wage)  + creditsSum;
                         String sDue = "விடுப்பு: " + leavesSum;
                         sDue += " நாள், கடன்: ₹" + creditsSum ;
-                        sDue += (", பிடிப்பு: ₹" + due);
-                        subText.setText(sDue);
+                        detail.setText(sDue);
+                        subText.setText ("பிடிப்பு: ₹" + due);
                         salary.setText(" மீதம்: ₹" + ((employee.Wage * workDays) - due));
                     }
 

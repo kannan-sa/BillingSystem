@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -88,6 +89,40 @@ public class EmployeeActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance().getReference();
         helper = new FirebaseHelper(db);
+
+        newLeave = new LeaveDialog(this);
+        newLeave.setContentView(R.layout.leaveform);
+        newLeave.InitControls();
+
+        newLeave.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String toastMessage = newLeave.getIsValid();
+
+                if(toastMessage.matches(""))    //no error
+                {
+                    String key = String.format("%04d%02d%02d", year.getValue(), month.getValue(), newLeave.date.getValue());
+                    if(newLeave.labelOperation.getText().toString().matches("நாள்:")) {
+                        Leave leave = newLeave.getLeave();
+                        leave.SetKey(key);
+                        if (!helper.save(employeeName.getText().toString(), leave))
+                            toastMessage = "Failed Saving";
+                    }
+                    else
+                    {
+                        Credit credit = newLeave.getCredit();
+                        credit.SetKey(key);
+                        if (!helper.save(employeeName.getText().toString(), credit))
+                            toastMessage = "Failed Saving";
+                    }
+                    newLeave.clear();
+                    newLeave.cancel();
+                }
+                if(!toastMessage.matches(""))
+                    Toast.makeText(EmployeeActivity.this, toastMessage, Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         db.child("Employees/" + empName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -154,40 +189,7 @@ public class EmployeeActivity extends AppCompatActivity {
         creditTouchHelper.attachToRecyclerView(creditsView);
 
 
-        newLeave = new LeaveDialog(this);
-        newLeave.setTitle("Leave");
-        newLeave.setContentView(R.layout.leaveform);
-        newLeave.InitControls();
 
-        newLeave.save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String toastMessage = newLeave.getIsValid();
-
-                if(toastMessage.matches(""))    //no error
-                {
-                    String key = String.format("%04d%02d%02d", year.getValue(), month.getValue(), newLeave.date.getValue());
-                    if(newLeave.labelOperation.getText().toString().matches("நாள்:")) {
-                        Leave leave = newLeave.getLeave();
-                        leave.SetKey(key);
-                        if (!helper.save(employeeName.getText().toString(), leave))
-                            toastMessage = "Failed Saving";
-                    }
-                    else
-                    {
-                        Credit credit = newLeave.getCredit();
-                        credit.SetKey(key);
-                        if (!helper.save(employeeName.getText().toString(), credit))
-                            toastMessage = "Failed Saving";
-                    }
-                    newLeave.clear();
-                    newLeave.cancel();
-                }
-                if(!toastMessage.matches(""))
-                    Toast.makeText(EmployeeActivity.this, toastMessage, Toast.LENGTH_LONG).show();
-
-            }
-        });
 
 
         addLeave = (ImageButton) findViewById(R.id.addleave);
@@ -223,8 +225,11 @@ public class EmployeeActivity extends AppCompatActivity {
     }
 
     private void UpdateLeavesAndCredits() {
+
+        newLeave.setDateLimit(GetMonthDays(year.getValue(), month.getValue() - 1));
+
         String startDate = String.format("%04d%02d%02d", year.getValue(), month.getValue(), 1);
-        String endDate = String.format("%04d%02d%02d", year.getValue(), month.getValue(), 31);
+        String endDate = String.format("%04d%02d%02d", year.getValue(), month.getValue(), GetMonthDays(year.getValue(), month.getValue()-1));
         Query leavesQuery = db.child("Leaves/" + employeeName.getText())
                 .orderByKey()
                 .startAt(startDate)
@@ -328,5 +333,11 @@ public class EmployeeActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private int GetMonthDays(int year, int month) {
+        // Create a calendar object and set year and month
+        Calendar mycal = new GregorianCalendar(year, month, 1);
+        // Get the number of days in that month
+        return mycal.getActualMaximum(Calendar.DAY_OF_MONTH); // 28
     }
 }

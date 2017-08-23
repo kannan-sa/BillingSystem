@@ -13,10 +13,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Print.PrintHelper;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     BottomBar bottomBar;
     Dialog confirm;
 
+    public static boolean dateSet = false, timeSet = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,15 +89,39 @@ public class MainActivity extends AppCompatActivity {
     public void PrintReceipt(View view) {
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
+        SetDateTime(db);
+
         // 1. if printer avaliable then send content to printer
 
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                PrintHelper printHelper = new PrintHelper(MainActivity.this);
-                if( !printHelper.runPrintReceiptSequence(dataSnapshot)) {
-                    db.child("Commands/Print").setValue(1); //2. else when no printer is avaliable just set command to other devices..
-                    Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
+                if (dataSnapshot.child("Items").exists()) {
+                    String name = (String) dataSnapshot.child("Commands/Name").getValue();
+                    String date = (String) dataSnapshot.child("Commands/Date").getValue();
+                    String time = (String) dataSnapshot.child("Commands/Time").getValue();
+
+/*
+                    PrintHelper printHelper = new PrintHelper(MainActivity.this);
+                    if (!printHelper.runPrintReceiptSequence(dataSnapshot)) {
+                        db.child("Commands/Print").setValue(1); //2. else when no printer is avaliable just set command to other devices..
+                        Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
+                    } else {
+                        //Clear items
+
+                    }*/
+
+                    String basekey = "Purchases/" + name + "/" +date +"/" + time;
+                    //Copy to sales..
+                    for (DataSnapshot ds : dataSnapshot.child("Items").getChildren()){
+                        Item item = ds.getValue(Item.class);
+                        item.SetID(ds.getKey());
+                        String key = basekey + "/" + item.GetID();
+                        db.child(key).setValue(item);
+                    }
+                    db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
+                    //Clear
+                    db.child("Items").removeValue();
                 }
             }
 
@@ -102,6 +133,19 @@ public class MainActivity extends AppCompatActivity {
 
         //Printing Procedures..
         confirm.cancel();
+    }
+
+    public void SetDateTime(DatabaseReference db) {
+        if (!dateSet) {
+            String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
+            db.child("Commands/Date").setValue(date);
+        }
+        if (!timeSet) {
+            String time = new SimpleDateFormat("hh:mm:ss a").format(new Date());
+            db.child("Commands/Time").setValue(time);
+        }
+        dateSet = false;
+        timeSet = false;
     }
 
     public void AddProduct(View view)
