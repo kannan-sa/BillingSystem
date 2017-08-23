@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +45,25 @@ public class MainActivity extends AppCompatActivity {
         confirm.setContentView(R.layout.dialog_confirm);
         confirm.setTitle("Confirm");
 
+        Button printButton = (Button) confirm.findViewById(R.id.cmdSave);
+        printButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrintReceipt();
+            }
+        });
+
+        Button clearButton = (Button) confirm.findViewById(R.id.cmdCancel);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                db.child("Items").removeValue();
+                confirm.cancel();
+            }
+        });
+
+
         purchaseFragment = new PurchaseFragment();
         productsFragment = new ProductsFragment();
         customersFragment = new CustomersFragment();
@@ -80,13 +100,7 @@ public class MainActivity extends AppCompatActivity {
         confirm.show();
     }
 
-    public void ClearItems(View view) {
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("Items").removeValue();
-        confirm.cancel();
-    }
-
-    public void PrintReceipt(View view) {
+    public void PrintReceipt() {
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
         SetDateTime(db);

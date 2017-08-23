@@ -11,7 +11,16 @@ public class Employee {
     public float Wage;
 
     private float leaves, credits;
+    private int workDays;
+    private boolean seleted;
 
+    public boolean IsSeleted() {
+        return seleted;
+    }
+
+    public void SetSeleted(boolean seleted) {
+        this.seleted = seleted;
+    }
 
     public String GetName() {
         return Name;
@@ -19,6 +28,14 @@ public class Employee {
 
     public void SetName(String name) {
         Name = name;
+    }
+
+    public float GetWorkDays() {
+        return workDays;
+    }
+
+    public void SetWorkDays(int workDays) {
+        this.workDays = workDays;
     }
 
     public float GetLeaves() {
@@ -35,5 +52,24 @@ public class Employee {
 
     public void SetCredits(float credits) {
         this.credits = credits;
+    }
+
+    // for pay slip
+    public String GetSalaryLine()
+    {
+        String message = "(" + workDays + ") - சம்பளம் ₹: " + workDays * Wage;
+        return message;
+    }
+
+    public String GetDueLine()
+    {
+        String message = "வி - " + leaves + " + க - ₹:" + credits + " = ₹:" +((Wage * leaves) + credits);
+        return message;
+    }
+
+    public String GetRemainingLine()
+    {
+        String message = "மீதம் ₹:" +  ((workDays * Wage) - ((Wage * leaves) + credits));
+        return message;
     }
 }

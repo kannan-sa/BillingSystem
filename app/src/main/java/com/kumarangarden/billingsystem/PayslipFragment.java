@@ -1,10 +1,17 @@
 package com.kumarangarden.billingsystem;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +22,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,16 +32,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Employee;
+import com.kumarangarden.billingsystem.m_Print.PrintHelper;
 import com.kumarangarden.billingsystem.m_UI.EmployeeDialog;
 import com.kumarangarden.billingsystem.m_UI.EmployeeViewHolder;
 import com.kumarangarden.billingsystem.m_Utility.InputFilterMinMax;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import static com.kumarangarden.billingsystem.OperationMode.*;
 
 /**
  * Created by kanna_000 on 09-08-2017.
  */
+
+enum OperationMode { Edit, Select }
 
 public class PayslipFragment extends Fragment {
 
@@ -45,14 +60,28 @@ public class PayslipFragment extends Fragment {
     EditText editSTDate, editWorkDays;
     TextView labelStatus;
     SharedPreferences sharedPreferences;
+    Dialog confirm;
+
+    FloatingActionButton printCommand;
 
     int startDate =1;
     int workDays = 31;
     String stDate, edDate;
+
+    //Selection
+    OperationMode mode;
+
+    String lightColor = "#EF9A9A";
+    String darkColor = "#C62828";
+    String whiteColor = "#FFFFFF";
+    List<Employee> employees = new ArrayList<Employee>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_payslip, container, false);
+
+        mode = Edit;
 
         labelStatus = (TextView) view.findViewById(R.id.labelStatus);
         editSTDate = (EditText) view.findViewById(R.id.editSTDate);
@@ -125,24 +154,40 @@ public class PayslipFragment extends Fragment {
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Employee, EmployeeViewHolder>(Employee.class,
                 R.layout.employeecard, EmployeeViewHolder.class, db.child("Employees").getRef()) {
             @Override
-            protected void populateViewHolder(EmployeeViewHolder holder, final Employee employee, final int position) {
+            protected void populateViewHolder(final EmployeeViewHolder holder, final Employee employee, final int position) {
                 DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
                 employee.SetName(databaseReference.getKey());
                 holder.Initialize(employee, stDate, edDate, workDays);
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        newEmployee.setEmployee(employee);
-                        newEmployee.show();
+                        if(mode == Edit) {
+                            newEmployee.setEmployee(employee);
+                            newEmployee.show();
+                        }
                         return false;
                     }
                 });
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), EmployeeActivity.class);
-                        intent.putExtra("Name", employee.GetName());
-                        startActivity(intent);
+                        if(mode == Edit) {
+                            Intent intent = new Intent(getContext(), EmployeeActivity.class);
+                            intent.putExtra("Name", employee.GetName());
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            employee.SetSeleted(!employee.IsSeleted());
+                            holder.itemView.setBackgroundColor(Color.parseColor( employee.IsSeleted() ? lightColor : whiteColor));
+                            holder.itemView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(employee.IsSeleted() ? lightColor : whiteColor)));
+
+                            if(employee.IsSeleted())
+                                employees.add(employee);
+                            else
+                                employees.remove(employee);
+                        }
                     }
                 });
             }
@@ -152,12 +197,22 @@ public class PayslipFragment extends Fragment {
         employeesView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         employeesView.setAdapter(firebaseRecyclerAdapter);
 
+
+
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 Toast.makeText(view.getContext(), "on Move", Toast.LENGTH_SHORT).show();
                 return false;
+            }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if(mode == Edit)
+                    return super.getSwipeDirs(recyclerView, viewHolder);
+                else
+                    return  0;
             }
 
             @Override
@@ -180,8 +235,84 @@ public class PayslipFragment extends Fragment {
         newEmployee.setContentView(R.layout.employeeform);
         newEmployee.InitControls();
 
+        printCommand = (FloatingActionButton) view.findViewById(R.id.printPayslip);
+        printCommand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (mode)
+                {
+                    case Edit:
+                        employees.clear();
+                        mode = Select;
+                        break;
+                    case Select:
+                            //Print confirm dialog
+
+                        if(employees.size() == 0)
+                            for (int i = 0; i < firebaseRecyclerAdapter.getItemCount(); i++)
+                                employees.add(firebaseRecyclerAdapter.getItem(i));
+
+                        confirm.show();
+                        break;
+                }
+                SetPrintCommandState();
+            }
+        });
+        SetPrintCommandState();
+
+        confirm = new Dialog(view.getContext());
+        confirm.setContentView(R.layout.dialog_confirm);
+        confirm.setTitle("Confirm");
+
+        Button printButton = (Button) confirm.findViewById(R.id.cmdSave);
+        printButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrintPayslip();
+                ReInitiate();
+            }
+        });
+
+        Button clearButton = (Button) confirm.findViewById(R.id.cmdCancel);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReInitiate();
+            }
+        });
 
         return view;
+    }
+
+    private void PrintPayslip() {
+        //TODO send to printing
+        PrintHelper printHelper = new PrintHelper(getContext());
+        if (!printHelper.runPrintPlayslipSequence(employees)) {
+            //2. else when no printer is avaliable just set command to other devices..
+            //Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
+        }
+        ReInitiate();
+    }
+
+    public void ReInitiate() {
+        mode = Edit;
+        employees.clear();
+        firebaseRecyclerAdapter.notifyDataSetChanged();
+        confirm.cancel();
+        SetPrintCommandState();
+    }
+
+    void SetPrintCommandState()
+    {
+        switch (mode)
+        {
+            case Edit:
+                printCommand.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(darkColor)));
+                break;
+            case Select:
+                printCommand.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(lightColor)));
+                break;
+        }
     }
 
     private void findStartEndDate() {

@@ -1,5 +1,6 @@
 package com.kumarangarden.billingsystem.m_UI;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -44,8 +45,9 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
         String title = employee.GetName() + "  ( ₹ " + employee.Wage + ")";
         total.setText(" ₹" + employee.Wage * workDays);
         this.title.setText(title);
-
-
+        employee.SetSeleted(false);
+        employee.SetWorkDays(workDays);
+        itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         Query leavesQuery = db.child("Leaves/" + employee.GetName())
                 .orderByKey()

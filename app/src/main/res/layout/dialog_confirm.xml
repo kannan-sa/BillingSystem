@@ -20,11 +20,6 @@
 
     </TableRow>
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="match_parent"
@@ -34,7 +29,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-    </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
@@ -44,23 +38,25 @@
 
         <Button
             android:id="@+id/cmdCancel"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:backgroundTint="#990000"
-
-            android:onClick="ClearItems"
-            android:text="புதுப்பிக்கவும்"
+            android:backgroundTint="@color/colorCancel"
+            android:background="@color/colorCancel"
+            android:text="நீக்கு"
             android:textColor="@color/cardview_light_background" />
 
         <Button
             android:id="@+id/cmdSave"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:backgroundTint="#00aa00"
-
-            android:onClick="PrintReceipt"
-            android:text="அச்சிடவூம்"
-            android:textColor="@color/cardview_light_background" />
+            android:backgroundTint="@color/colorOK"
+            android:background="@color/colorOK"
+            android:textColor="@color/cardview_light_background"
+            android:text="அச்சிடு"/>
     </TableRow>
 
 </TableLayout>

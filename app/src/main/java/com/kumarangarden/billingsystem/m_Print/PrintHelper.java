@@ -22,8 +22,11 @@ import com.kumarangarden.billingsystem.R;
 
 import com.epson.epos2.Epos2CallbackCode;
 import com.epson.epos2.Log;
+import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_UI.ShowMsg;
+
+import java.util.List;
 
 /**
  * Created by kanna_000 on 19-08-2017.
@@ -52,6 +55,30 @@ public class PrintHelper implements ReceiveListener {
         return true;
     }
 
+    private boolean createPayslipData(Employee employee) {
+        String method = "addText";
+        if (mPrinter == null) {
+            return false;
+        }
+
+        try {
+
+            mPrinter.addTextSize(1, 2);
+            addText(employee.GetName() + "\n", Printer.ALIGN_LEFT);
+            mPrinter.addTextSize(1, 1);
+            addText( employee.GetSalaryLine() + "\n", Printer.ALIGN_RIGHT);
+            addText( employee.GetDueLine() + "\n", Printer.ALIGN_RIGHT);
+            addText( employee.GetRemainingLine() + "\n", Printer.ALIGN_RIGHT);
+            addText("----------------------------------------\n", Printer.ALIGN_CENTER);
+            mPrinter.addFeedLine(2);
+
+        } catch (Exception e) {
+            ShowMsg.showException(e, method, context);
+            return false;
+        }
+
+        return true;
+    }
     private boolean createReceiptData(DataSnapshot dataSnapshot) {
         String method = "";
         Bitmap logoData = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_billing_18dp);
@@ -419,6 +446,30 @@ public class PrintHelper implements ReceiveListener {
 
         return true;
     }
+
+    public boolean runPrintPlayslipSequence(List<Employee> employees) {
+
+        for(Employee employee : employees)
+        {
+            if (!initializeObject()) {
+                return false;
+            }
+
+            if (!createPayslipData(employee)) {
+                finalizeObject();
+                return false;
+            }
+
+            if (!printData()) {
+                finalizeObject();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
 
     @Override
     public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
