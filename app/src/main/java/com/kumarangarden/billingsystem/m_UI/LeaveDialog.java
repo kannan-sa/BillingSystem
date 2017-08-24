@@ -55,8 +55,8 @@ public class LeaveDialog extends Dialog {
         });
 
         labelOperation = (TextView) findViewById(R.id.labeldays);
-        
-        Button cancel = (Button) findViewById(R.id.cmdCancel);
+
+        Button cancel = (Button) findViewById(R.id.buttonCancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

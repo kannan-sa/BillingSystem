@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -28,8 +29,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Print.PrintHelper;
@@ -75,6 +79,8 @@ public class PayslipFragment extends Fragment {
     String darkColor = "#C62828";
     String whiteColor = "#FFFFFF";
     List<Employee> employees = new ArrayList<Employee>();
+
+    float delay = 5;
 
     @Nullable
     @Override
@@ -149,6 +155,18 @@ public class PayslipFragment extends Fragment {
         db = FirebaseDatabase.getInstance().getReference();
         db.keepSynced(true);
 
+        db.child("Commands/Delay").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                delay = dataSnapshot.getValue(Float.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         helper = new FirebaseHelper(db);
 
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Employee, EmployeeViewHolder>(Employee.class,
@@ -180,8 +198,12 @@ public class PayslipFragment extends Fragment {
                         else
                         {
                             employee.SetSeleted(!employee.IsSeleted());
-                            holder.itemView.setBackgroundColor(Color.parseColor( employee.IsSeleted() ? lightColor : whiteColor));
-                            holder.itemView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(employee.IsSeleted() ? lightColor : whiteColor)));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                holder.itemView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(employee.IsSeleted() ? lightColor : whiteColor)));
+                            } else {
+                                holder.itemView.setBackgroundColor(Color.parseColor( employee.IsSeleted() ? lightColor : whiteColor));
+                            }
+
 
                             if(employee.IsSeleted())
                                 employees.add(employee);
@@ -247,12 +269,10 @@ public class PayslipFragment extends Fragment {
                         break;
                     case Select:
                             //Print confirm dialog
-
-                        if(employees.size() == 0)
-                            for (int i = 0; i < firebaseRecyclerAdapter.getItemCount(); i++)
-                                employees.add(firebaseRecyclerAdapter.getItem(i));
-
-                        confirm.show();
+                        if(employees.size() > 0)
+                            confirm.show();
+                        else
+                            ReInitiate();;
                         break;
                 }
                 SetPrintCommandState();
@@ -269,7 +289,6 @@ public class PayslipFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PrintPayslip();
-                ReInitiate();
             }
         });
 
@@ -285,13 +304,28 @@ public class PayslipFragment extends Fragment {
     }
 
     private void PrintPayslip() {
+        final Handler handler = new Handler();
         //TODO send to printing
-        PrintHelper printHelper = new PrintHelper(getContext());
-        if (!printHelper.runPrintPlayslipSequence(employees)) {
-            //2. else when no printer is avaliable just set command to other devices..
-            //Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
-        }
-        ReInitiate();
+        final PrintHelper printHelper = new PrintHelper(getContext());
+        //
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(employees.size() > 0)
+                {
+                    Employee employee = employees.get(0);
+                    if (printHelper.runPrintPlayslipSequence(employee)) {
+                        employees.remove(employee);
+                        if(employees.size() > 0)
+                            handler.postDelayed(this, (long) delay * 1000);
+                        else
+                            ReInitiate();
+                    }
+                    else
+                        ReInitiate();
+                }
+            }
+        }, 100);
     }
 
     public void ReInitiate() {

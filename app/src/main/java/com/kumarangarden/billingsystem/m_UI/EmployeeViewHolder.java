@@ -1,6 +1,8 @@
 package com.kumarangarden.billingsystem.m_UI;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -47,7 +49,15 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
         this.title.setText(title);
         employee.SetSeleted(false);
         employee.SetWorkDays(workDays);
-        itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            itemView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+        } else {
+            itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
+
+
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         Query leavesQuery = db.child("Leaves/" + employee.GetName())
                 .orderByKey()

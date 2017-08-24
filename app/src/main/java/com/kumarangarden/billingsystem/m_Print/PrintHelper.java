@@ -447,28 +447,24 @@ public class PrintHelper implements ReceiveListener {
         return true;
     }
 
-    public boolean runPrintPlayslipSequence(List<Employee> employees) {
+    public boolean runPrintPlayslipSequence(Employee employee) {
 
-        for(Employee employee : employees)
-        {
-            if (!initializeObject()) {
-                return false;
-            }
+        if (!initializeObject()) {
+            return false;
+        }
 
-            if (!createPayslipData(employee)) {
-                finalizeObject();
-                return false;
-            }
+        if (!createPayslipData(employee)) {
+            finalizeObject();
+            return false;
+        }
 
-            if (!printData()) {
-                finalizeObject();
-                return false;
-            }
+        if (!printData()) {
+            finalizeObject();
+            return false;
         }
 
         return true;
     }
-
 
 
     @Override

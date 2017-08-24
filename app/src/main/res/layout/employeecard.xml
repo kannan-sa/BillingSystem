@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="?android:attr/textColorHintInverse"
-    app:cardBackgroundColor="@color/cardview_light_background">
-
+    app:cardBackgroundColor="@color/cardview_light_background"
+    >
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="5dp">
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical">
 
         <TableRow
             android:layout_width="match_parent"
@@ -73,6 +73,7 @@
             android:id="@+id/textSalary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:gravity="right|end"
             android:text="பிடிப்பு: ₹ 120"
