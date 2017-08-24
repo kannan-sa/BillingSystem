@@ -26,7 +26,11 @@ import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_UI.ShowMsg;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by kanna_000 on 19-08-2017.
@@ -115,9 +119,13 @@ public class PrintHelper implements ReceiveListener {
             mPrinter.addTextSize(1, 1);
             addText("    - 9629680504\n", Printer.ALIGN_RIGHT);
 
+            DateFormat originalFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
+            DateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date t_date = originalFormat.parse(date);
+            String formattedDate = targetFormat.format(t_date);  // 20120821
 
             addText(name + "\n", Printer.ALIGN_LEFT);
-            addText(date + " - " + time + "\n", Printer.ALIGN_RIGHT);
+            addText(formattedDate + " - " + time + "\n", Printer.ALIGN_RIGHT);
 
             addText("----------------------------------------\n", Printer.ALIGN_CENTER);
 

@@ -85,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:layout_margin="5dp"
-                android:onClick="CancelCustomer"
                 android:backgroundTint="@color/colorCancel"
                 android:background="@color/colorCancel"
                 android:text="நீக்கு"

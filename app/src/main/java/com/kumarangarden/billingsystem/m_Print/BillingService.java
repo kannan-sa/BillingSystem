@@ -22,7 +22,7 @@ import com.kumarangarden.billingsystem.m_Model.Item;
 public class BillingService extends Service {
 
     DatabaseReference db;
-    static boolean initialized;
+    public static boolean initialized;
     @Override
     public void onCreate() {
         super.onCreate();

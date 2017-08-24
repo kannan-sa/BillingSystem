@@ -17,7 +17,8 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textView2"
@@ -126,7 +127,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:layout_margin="5dp"
-                android:onClick="CancelProduct"
                 android:backgroundTint="@color/colorCancel"
                 android:background="@color/colorCancel"
                 android:text="நீக்கு"
@@ -139,9 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:layout_margin="5dp"
-                android:onClick="SaveProduct"
                 android:text="சேர்"
-
                 android:backgroundTint="@color/colorOK"
                 android:background="@color/colorOK"
                 android:textColor="@color/cardview_light_background" />

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     PayslipFragment payslipFragment;
     BottomBar bottomBar;
     Dialog confirm;
-
+    int printCommand = 1;
     public static boolean dateSet = false, timeSet = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.child("Items").removeValue();
+                db.child("Commands/Print").setValue(0);
                 confirm.cancel();
             }
         });
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         {
                             PrintHelper printHelper = new PrintHelper(MainActivity.this);
                             if (!printHelper.runPrintReceiptSequence(dataSnapshot, name, date, time)) {
-                                db.child("Commands/Print").setValue(1); //2. else when no printer is avaliable just set command to other devices..
+                                db.child("Commands/Print").setValue(printCommand++); //2. else when no printer is avaliable just set command to other devices..
                                 Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
                             }
                             else

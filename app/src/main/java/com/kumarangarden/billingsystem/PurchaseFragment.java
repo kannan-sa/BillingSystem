@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Item;
+import com.kumarangarden.billingsystem.m_Print.BillingService;
 import com.kumarangarden.billingsystem.m_UI.ItemDialog;
 import com.kumarangarden.billingsystem.m_UI.ItemViewHolder;
 import com.roughike.bottombar.BottomBar;
@@ -57,7 +58,7 @@ public class PurchaseFragment extends Fragment {
     FirebaseRecyclerAdapter<Item, ItemViewHolder> firebaseRecyclerAdapter;
     TextView dateView, timeView, totalView;
     View view;
-
+    Button saveCmd ;
     BottomBar bottomBar;
     boolean holding = false;
     private long DELAY = 2000;
@@ -70,7 +71,13 @@ public class PurchaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_purchase, container, false);
 
-        db = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        db = firebaseDatabase.getReference();
+
+        /*if(!BillingService.initialized) {
+            BillingService.initialized = true;
+            firebaseDatabase.setPersistenceEnabled(true);
+        }*/
         db.keepSynced(true);
 
         helper = new FirebaseHelper(db);
@@ -256,7 +263,7 @@ public class PurchaseFragment extends Fragment {
             }
         });
 
-        Button saveCmd = (Button) newItem.findViewById(R.id.cmdSave);
+        saveCmd = (Button) newItem.findViewById(R.id.cmdSave);
         saveCmd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
