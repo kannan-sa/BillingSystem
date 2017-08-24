@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.R;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Model.Sale;
+import com.kumarangarden.billingsystem.m_Utility.DateTimeUtil;
 
 import java.util.List;
 
@@ -56,7 +57,8 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SaleHolder> {
     @Override
     public void onBindViewHolder(SaleHolder holder, int position) {
         final Sale sale = salesList.get(position);
-        holder.title.setText(sale.date + " - " + sale.time);
+        String formattedDate = DateTimeUtil.GetFormatChanged("yyyyMMdd", "dd/MM/yyyy", sale.date);
+        holder.title.setText(formattedDate + " - " + sale.time);
         ImageButton addItems = (ImageButton) holder.itemView.findViewById(R.id.addItems);
         addItems.setOnClickListener(new View.OnClickListener() {
             @Override

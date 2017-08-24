@@ -23,6 +23,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -108,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
         db.child("Commands").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final String name = (String) dataSnapshot.child("Name").getValue();
-                final String date = (String) dataSnapshot.child("Date").getValue();
-                final String time = (String) dataSnapshot.child("Time").getValue();
+                final String name = dataSnapshot.child("Name").getValue(String.class);
+                final String date = dataSnapshot.child("Date").getValue(String.class);
+                final String time = dataSnapshot.child("Time").getValue(String.class);
 
                 db.child("Items").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -124,18 +125,21 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else
                             {
-                                db.child("Commands/Print").setValue(0);
-                                String basekey = "Purchases/" + name + "/" +date +"/" + time;
+                                String base_key = "Purchases/" + name + "/" +date +"/" + time;
+                                Toast.makeText(MainActivity.this,base_key,Toast.LENGTH_LONG).show();
                                 //Copy to sales..
-                                for (DataSnapshot ds : dataSnapshot.child("Items").getChildren()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()){
                                     Item item = ds.getValue(Item.class);
                                     item.SetID(ds.getKey());
-                                    String key = basekey + "/" + item.GetID();
+                                    String key = base_key + "/" + item.GetID();
+                                    Toast.makeText(MainActivity.this,key,Toast.LENGTH_LONG).show();
+
                                     db.child(key).setValue(item);
                                 }
                                 db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
                                 //Clear
                                 db.child("Items").removeValue();
+                                db.child("Commands/Print").setValue(0);
                             }
                         }
                     }
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             db.child("Commands/Date").setValue(date);
         }
         if (!timeSet) {
-            String time = new SimpleDateFormat("hh:mm:ss a").format(new Date());
+            String time = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH).format(new Date());
             db.child("Commands/Time").setValue(time);
         }
         dateSet = false;

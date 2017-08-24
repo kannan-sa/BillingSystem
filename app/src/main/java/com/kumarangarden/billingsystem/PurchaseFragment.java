@@ -44,6 +44,7 @@ import com.roughike.bottombar.BottomBar;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by kanna_000 on 09-08-2017.
@@ -153,7 +154,7 @@ public class PurchaseFragment extends Fragment {
         dateView = (TextView) view.findViewById(R.id.textDate);
         dateView.setText(currentDateandTime);
 
-        sdf = new SimpleDateFormat("hh:mm a");
+        sdf = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
         currentDateandTime = sdf.format(c.getTime());
 
         timeView = (TextView) view.findViewById(R.id.textTime);
@@ -363,11 +364,11 @@ public class PurchaseFragment extends Fragment {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), hourOfDay, minute);
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
                 String currentDateandTime = sdf.format(c.getTime());
                 timeView.setText(currentDateandTime);
 
-                String db_time = new SimpleDateFormat("hh:mm:ss a").format(c.getTime());
+                String db_time = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH).format(c.getTime());
                 db.child("Commands/Time").setValue(db_time);
                 MainActivity.timeSet = true;
 

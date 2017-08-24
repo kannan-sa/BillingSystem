@@ -57,9 +57,9 @@ public class BillingService extends Service {
         db.child("Commands").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final String name = (String) dataSnapshot.child("Name").getValue();
-                final String date = (String) dataSnapshot.child("Date").getValue();
-                final String time = (String) dataSnapshot.child("Time").getValue();
+                final String name = dataSnapshot.child("Name").getValue(String.class);
+                final String date = dataSnapshot.child("Date").getValue(String.class);
+                final String time = dataSnapshot.child("Time").getValue(String.class);
 
                 db.child("Items").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -73,10 +73,9 @@ public class BillingService extends Service {
                             }
                             else
                             {
-                                db.child("Commands/Print").setValue(0);
                                 String basekey = "Purchases/" + name + "/" +date +"/" + time;
                                 //Copy to sales..
-                                for (DataSnapshot ds : dataSnapshot.child("Items").getChildren()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()){
                                     Item item = ds.getValue(Item.class);
                                     item.SetID(ds.getKey());
                                     String key = basekey + "/" + item.GetID();
@@ -85,6 +84,7 @@ public class BillingService extends Service {
                                 db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
                                 //Clear
                                 db.child("Items").removeValue();
+                                db.child("Commands/Print").setValue(0);
                             }
                         }
                     }

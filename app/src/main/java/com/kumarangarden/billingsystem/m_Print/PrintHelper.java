@@ -25,6 +25,7 @@ import com.epson.epos2.Log;
 import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_UI.ShowMsg;
+import com.kumarangarden.billingsystem.m_Utility.DateTimeUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -119,11 +120,7 @@ public class PrintHelper implements ReceiveListener {
             mPrinter.addTextSize(1, 1);
             addText("    - 9629680504\n", Printer.ALIGN_RIGHT);
 
-            DateFormat originalFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
-            DateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date t_date = originalFormat.parse(date);
-            String formattedDate = targetFormat.format(t_date);  // 20120821
-
+            String formattedDate = DateTimeUtil.GetFormatChanged("yyyyMMdd", "dd/MM/yyyy", date);
             addText(name + "\n", Printer.ALIGN_LEFT);
             addText(formattedDate + " - " + time + "\n", Printer.ALIGN_RIGHT);
 
@@ -434,8 +431,6 @@ public class PrintHelper implements ReceiveListener {
         return msg;
     }
     public boolean runPrintReceiptSequence(DataSnapshot dataSnapshot, String name, String date, String time) {
-
-
         if (!initializeObject()) {
             return false;
         }
@@ -449,7 +444,6 @@ public class PrintHelper implements ReceiveListener {
             finalizeObject();
             return false;
         }
-
         return true;
     }
 
