@@ -79,7 +79,7 @@ public class PrintHelper implements ReceiveListener {
 
         return true;
     }
-    private boolean createReceiptData(DataSnapshot dataSnapshot) {
+    private boolean createReceiptData(DataSnapshot dataSnapshot, String name, String date, String time) {
         String method = "";
         Bitmap logoData = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_billing_18dp);
         StringBuilder textData = new StringBuilder();
@@ -116,16 +116,14 @@ public class PrintHelper implements ReceiveListener {
             addText("    - 9629680504\n", Printer.ALIGN_RIGHT);
 
 
-            addText(dataSnapshot.child("Commands/Name").getValue(String.class) + "\n", Printer.ALIGN_LEFT);
-            String date = dataSnapshot.child("Commands/Date").getValue(String.class);
-            String time = dataSnapshot.child("Commands/Time").getValue(String.class);
+            addText(name + "\n", Printer.ALIGN_LEFT);
             addText(date + " - " + time + "\n", Printer.ALIGN_RIGHT);
 
             addText("----------------------------------------\n", Printer.ALIGN_CENTER);
 
             int i = 1;
             float sum = 0;
-            for (DataSnapshot suggestionSnapshot : dataSnapshot.child("Items").getChildren()){
+            for (DataSnapshot suggestionSnapshot : dataSnapshot.getChildren()){
                 Item item = suggestionSnapshot.getValue(Item.class);
                 try {
                     float price = item.GetNetPrice();
@@ -427,14 +425,14 @@ public class PrintHelper implements ReceiveListener {
 
         return msg;
     }
-    public boolean runPrintReceiptSequence(DataSnapshot dataSnapshot) {
+    public boolean runPrintReceiptSequence(DataSnapshot dataSnapshot, String name, String date, String time) {
 
 
         if (!initializeObject()) {
             return false;
         }
 
-        if (!createReceiptData(dataSnapshot)) {
+        if (!createReceiptData(dataSnapshot, name, date, time)) {
             finalizeObject();
             return false;
         }

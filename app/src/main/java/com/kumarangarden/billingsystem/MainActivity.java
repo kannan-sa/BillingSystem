@@ -22,7 +22,6 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -104,39 +103,46 @@ public class MainActivity extends AppCompatActivity {
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
         SetDateTime(db);
-
         // 1. if printer avaliable then send content to printer
-
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
+        db.child("Commands").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("Items").exists()) {
-                    String name = (String) dataSnapshot.child("Commands/Name").getValue();
-                    String date = (String) dataSnapshot.child("Commands/Date").getValue();
-                    String time = (String) dataSnapshot.child("Commands/Time").getValue();
+                final String name = (String) dataSnapshot.child("Name").getValue();
+                final String date = (String) dataSnapshot.child("Date").getValue();
+                final String time = (String) dataSnapshot.child("Time").getValue();
 
-/*
-                    PrintHelper printHelper = new PrintHelper(MainActivity.this);
-                    if (!printHelper.runPrintReceiptSequence(dataSnapshot)) {
-                        db.child("Commands/Print").setValue(1); //2. else when no printer is avaliable just set command to other devices..
-                        Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
-                    } else {
-                        //Clear items
-
-                    }*/
-
-                    String basekey = "Purchases/" + name + "/" +date +"/" + time;
-                    //Copy to sales..
-                    for (DataSnapshot ds : dataSnapshot.child("Items").getChildren()){
-                        Item item = ds.getValue(Item.class);
-                        item.SetID(ds.getKey());
-                        String key = basekey + "/" + item.GetID();
-                        db.child(key).setValue(item);
+                db.child("Items").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getChildrenCount() > 0)
+                        {
+                            PrintHelper printHelper = new PrintHelper(MainActivity.this);
+                            if (!printHelper.runPrintReceiptSequence(dataSnapshot, name, date, time)) {
+                                db.child("Commands/Print").setValue(1); //2. else when no printer is avaliable just set command to other devices..
+                                Toast.makeText(MainActivity.this, "Command Set", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                db.child("Commands/Print").setValue(0);
+                                String basekey = "Purchases/" + name + "/" +date +"/" + time;
+                                //Copy to sales..
+                                for (DataSnapshot ds : dataSnapshot.child("Items").getChildren()){
+                                    Item item = ds.getValue(Item.class);
+                                    item.SetID(ds.getKey());
+                                    String key = basekey + "/" + item.GetID();
+                                    db.child(key).setValue(item);
+                                }
+                                db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
+                                //Clear
+                                db.child("Items").removeValue();
+                            }
+                        }
                     }
-                    db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
-                    //Clear
-                    db.child("Items").removeValue();
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
