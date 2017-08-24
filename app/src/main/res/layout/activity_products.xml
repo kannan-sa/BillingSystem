@@ -36,7 +36,6 @@
         android:layout_marginTop="40dp"
         android:alpha=".85"
         android:elevation="4dp"
-        android:onClick="AddItem"
         android:src="@drawable/ic_action_print"
         android:visibility="invisible"
         app:backgroundTint="#689F38"

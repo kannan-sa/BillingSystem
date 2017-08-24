@@ -162,37 +162,12 @@ public class MainActivity extends AppCompatActivity {
         timeSet = false;
     }
 
-    public void AddProduct(View view)
-    {
-        productsFragment.AddProduct(view);
-    }
-    public void CancelProduct(View view)  {
-        productsFragment.CancelProduct(view);
-    }
-    public void SaveProduct(View view) {
-        productsFragment.SaveProduct(view);
-    }
-
-    public void AddItem(View view)
-    {
-        purchaseFragment.AddItem(view);
-    }
-    public void SaveItem(View view) {
-        purchaseFragment.SaveItem(view);
-    }
-    public void CancelItem(View view)  {
-        purchaseFragment.CancelItem(view);
-    }
-
     public void AddCustomer(View view)
     {
         customersFragment.AddCustomer(view);
     }
     public void SaveCustomer(View view) {
         customersFragment.SaveCustomer(view);
-    }
-    public void CancelCustomer(View view)  {
-        customersFragment.CancelCustomer(view);
     }
 
     public void AddEmployee(View view)
@@ -202,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
     public void SaveEmployee(View view) {
         payslipFragment.SaveEmployee(view);
     }
-    public void CancelEmployee(View view)  {
-        payslipFragment.CancelEmployee(view);
-    }
-
 
     public void SetDate(View view)
     {

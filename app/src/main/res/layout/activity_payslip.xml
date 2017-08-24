@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_alignTop="@+id/printProducts">
+        android:layout_alignTop="@+id/printPayslip">
 
         <TextView
             android:id="@+id/labelStatus"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Dates"
             android:textColor="@color/cardview_light_background" />
     </LinearLayout>
 

@@ -55,6 +55,14 @@ public class LeaveDialog extends Dialog {
         });
 
         labelOperation = (TextView) findViewById(R.id.labeldays);
+        
+        Button cancel = (Button) findViewById(R.id.cmdCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
     }
 
     public  void setDateLimit(int max)

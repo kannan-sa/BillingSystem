@@ -27,15 +27,16 @@
             android:textStyle="bold" />
 
 
-
         <ImageButton
             android:id="@+id/addItems"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             android:layout_margin="3dp"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            android:backgroundTint="@color/colorOK"
+            android:background="@color/colorOK"
+            app:srcCompat="@drawable/ic_action_add" />
 
     </LinearLayout>
 

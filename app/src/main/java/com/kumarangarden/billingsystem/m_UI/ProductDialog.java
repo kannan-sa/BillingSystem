@@ -3,6 +3,8 @@ package com.kumarangarden.billingsystem.m_UI;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -50,6 +52,13 @@ public class ProductDialog extends Dialog {
             }
         });
 
+        Button cancel = (Button) findViewById(R.id.cmdCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
 
     }
 

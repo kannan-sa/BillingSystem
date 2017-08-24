@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -247,6 +248,22 @@ public class PurchaseFragment extends Fragment {
         int bottomBarState  =  saved_values.getInt("ONLY_PURCHASE", 0);
         SetAppMode(bottomBarState);
 
+        FloatingActionButton addProduct = (FloatingActionButton) view.findViewById(R.id.addItem);
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newItem.show();
+            }
+        });
+
+        Button saveCmd = (Button) newItem.findViewById(R.id.cmdSave);
+        saveCmd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveItem();
+            }
+        });
+
         return view;
     }
     public void ScheduleStateChange()
@@ -296,17 +313,7 @@ public class PurchaseFragment extends Fragment {
         addItem.setLayoutParams(addItemParams);
     }
 
-    void AddItem(View view)
-    {
-        newItem.show();
-    }
-
-    void CancelItem(View view)
-    {
-        newItem.cancel();
-    }
-
-    void SaveItem(View view)
+    void SaveItem()
     {
         String toastMessage = newItem.getIsValid();
 

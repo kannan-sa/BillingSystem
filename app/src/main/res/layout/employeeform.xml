@@ -23,14 +23,14 @@
                 android:id="@+id/labelName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name:" />
+                android:text="பெயர்:" />
 
             <EditText
                 android:id="@+id/editName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Name..."
+                android:hint="பெயர்..."
                 android:inputType="textPersonName" />
 
         </TableRow>
@@ -43,14 +43,14 @@
                 android:id="@+id/textWage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wage" />
+                android:text="கூலி:" />
 
             <EditText
                 android:id="@+id/editWage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Wage..."
+                android:hint="கூலி..."
                 android:inputType="numberDecimal" />
         </TableRow>
 
@@ -63,14 +63,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:text="Phone:" />
+                android:text="தொலைபேசி:" />
 
             <EditText
                 android:id="@+id/editPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Phone..."
+                android:hint="தொலைபேசி..."
                 android:inputType="phone" />
 
         </TableRow>
@@ -84,14 +84,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Address:" />
+                android:text="முகவரி:" />
 
             <EditText
                 android:id="@+id/editAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Address..."
+                android:hint="முகவரி..."
                 android:inputType="textPostalAddress" />
         </TableRow>
 
@@ -104,16 +104,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:layout_margin="5dp"
                 android:onClick="CancelEmployee"
-                android:text="Cancel" />
+                android:backgroundTint="@color/colorCancel"
+                android:background="@color/colorCancel"
+                android:text="நீக்கு"
+                android:textColor="@color/cardview_light_background"
+                />
 
             <Button
                 android:id="@+id/cmdSave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:onClick="SaveEmployee"
                 android:layout_weight="0.5"
-                android:text="Save" />
+                android:backgroundTint="@color/colorOK"
+                android:background="@color/colorOK"
+                android:textColor="@color/cardview_light_background"
+                android:text="சேர்" />
 
         </TableRow>
     </TableLayout>

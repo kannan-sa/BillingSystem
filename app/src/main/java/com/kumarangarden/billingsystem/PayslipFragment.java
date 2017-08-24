@@ -403,10 +403,7 @@ public class PayslipFragment extends Fragment {
         newEmployee.show();
     }
 
-    void CancelEmployee(View view)
-    {
-        newEmployee.cancel();
-    }
+
 
     void SaveEmployee(View view)
     {

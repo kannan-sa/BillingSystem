@@ -126,10 +126,7 @@ public class CustomersFragment extends Fragment {
         newCustomer.show();
     }
 
-    void CancelCustomer(View view)
-    {
-        newCustomer.cancel();
-    }
+
 
     void SaveCustomer(View view)
     {

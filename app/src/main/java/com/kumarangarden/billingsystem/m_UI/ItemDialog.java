@@ -130,6 +130,14 @@ public class ItemDialog extends Dialog {
         digit1.setOnValueChangedListener(digitChangeListener);
         digit2.setOnValueChangedListener(digitChangeListener);
         digit3.setOnValueChangedListener(digitChangeListener);
+
+        Button cancel = (Button) findViewById(R.id.cmdCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
     }
 
     private void InitNewDigits() {

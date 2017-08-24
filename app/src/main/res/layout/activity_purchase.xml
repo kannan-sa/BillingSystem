@@ -58,7 +58,6 @@
         android:layout_marginRight="40dp"
         android:alpha=".75"
         android:elevation="4dp"
-        android:onClick="AddItem"
         android:src="@drawable/ic_action_add"
         android:visibility="visible"
         app:backgroundTint="#0288D1"

@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -19,6 +20,8 @@ import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Product;
 import com.kumarangarden.billingsystem.m_UI.ProductDialog;
 import com.kumarangarden.billingsystem.m_UI.ProductViewHolder;
+
+import static com.kumarangarden.billingsystem.OperationMode.Select;
 
 /**
  * Created by kanna_000 on 09-08-2017.
@@ -92,20 +95,26 @@ public class ProductsFragment extends Fragment {
         newProduct.setContentView(R.layout.productform);
         newProduct.InitControls();
 
+        FloatingActionButton addProduct = (FloatingActionButton) view.findViewById(R.id.addProduct);
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newProduct.show();
+            }
+        });
+
+        Button saveCmd = (Button) newProduct.findViewById(R.id.cmdSave);
+        saveCmd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveProduct();
+            }
+        });
         return view;
     }
 
-    void AddProduct(View view)
-    {
-        newProduct.show();
-    }
 
-    void CancelProduct(View view)
-    {
-        newProduct.cancel();
-    }
-
-    void SaveProduct(View view)
+    void SaveProduct()
     {
         String toastMessage = newProduct.getIsValid();
 

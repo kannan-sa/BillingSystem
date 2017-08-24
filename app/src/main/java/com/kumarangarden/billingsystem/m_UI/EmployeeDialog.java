@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.location.Address;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.kumarangarden.billingsystem.R;
@@ -30,6 +32,14 @@ public class EmployeeDialog extends Dialog {
         phone = (EditText) findViewById(R.id.editPhone);
         address = (EditText) findViewById(R.id.editAddress);
         wage = (EditText) findViewById(R.id.editWage);
+
+        Button cancel = (Button) findViewById(R.id.cmdCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
     }
 
     public String getIsValid() {

@@ -3,10 +3,7 @@
     android:id="@+id/itemForm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="25dp"
-    android:layout_marginRight="25dp"
-    android:layout_marginTop="25dp"
-    android:layout_marginBottom="25dp"
+    android:layout_margin="25dp"
     >
 
     <TableLayout
@@ -24,16 +21,14 @@
                 android:id="@+id/labelID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID:"
-                android:layout_gravity="start|center"
+                android:text="எண்:"
+                android:layout_gravity="left|center"
                 />
 
             <LinearLayout
                 android:id="@+id/layoutID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 
                 <NumberPicker
@@ -186,19 +181,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:backgroundTint="#aa0000"
+                android:layout_margin="5dp"
                 android:onClick="CancelItem"
-                android:text="Cancel"
+                android:backgroundTint="@color/colorCancel"
+                android:background="@color/colorCancel"
+                android:text="நீக்கு"
                 android:textColor="@color/cardview_light_background" />
 
             <Button
                 android:id="@+id/cmdSave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="#00aa00"
                 android:onClick="SaveItem"
-                android:text="Save"
+                android:text="சேர்"
+                android:backgroundTint="@color/colorOK"
+                android:background="@color/colorOK"
                 android:textColor="@color/cardview_light_background" />
         </TableRow>
     </TableLayout>
