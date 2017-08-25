@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.MainActivity;
+import com.kumarangarden.billingsystem.m_Model.Customer;
+import com.kumarangarden.billingsystem.m_Model.Employee;
 import com.kumarangarden.billingsystem.m_Model.Item;
 
 /**
@@ -41,7 +43,8 @@ public class BillingService extends Service {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     if (dataSnapshot.getValue(Integer.class) > 0) {
-                      PrintPurchases();
+                        MainActivity.SetDateTime(db);
+                        PrintPurchases();
                     }
                 }
             }
@@ -81,10 +84,27 @@ public class BillingService extends Service {
                                     String key = basekey + "/" + item.GetID();
                                     db.child(key).setValue(item);
                                 }
-                                db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
+
+
                                 //Clear
                                 db.child("Items").removeValue();
                                 db.child("Commands/Print").setValue(0);
+                                db.child("Commands/Name").setValue("பொது");
+
+                                final String customerKey = "Customers/" + name;
+                                db.child(customerKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(!dataSnapshot.exists())
+                                            db.child(customerKey).setValue(new Customer(name));
+                                        db.child(customerKey).setPriority(ServerValue.TIMESTAMP);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         }
                     }

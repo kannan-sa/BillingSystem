@@ -7,17 +7,23 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
+import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Model.Product;
+import com.kumarangarden.billingsystem.m_UI.ItemDialog;
 import com.kumarangarden.billingsystem.m_UI.ProductDialog;
 import com.kumarangarden.billingsystem.m_UI.ProductViewHolder;
 
@@ -30,10 +36,12 @@ import static com.kumarangarden.billingsystem.OperationMode.Select;
 public class ProductsFragment extends Fragment {
 
     ProductDialog newProduct;
+    ItemDialog newItem;
     DatabaseReference db;
     FirebaseHelper helper;
     RecyclerView productsView;
     FirebaseRecyclerAdapter<Product, ProductViewHolder> firebaseRecyclerAdapter;
+    EditText editFilter;
 
     @Nullable
     @Override
@@ -45,27 +53,32 @@ public class ProductsFragment extends Fragment {
 
         helper = new FirebaseHelper(db);
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Product, ProductViewHolder>(Product.class,
-                R.layout.productcard, ProductViewHolder.class, db.child("Products").getRef()) {
+        newItem = new ItemDialog(getContext());
+        newItem.setTitle("Item");
+        newItem.setContentView(R.layout.itemform);
+        newItem.InitControls(helper, true);
+        editFilter = (EditText) view.findViewById(R.id.editFilter);
+        editFilter.addTextChangedListener(new TextWatcher() {
             @Override
-            protected void populateViewHolder(ProductViewHolder holder, final Product product, final int position) {
-                DatabaseReference dbRef = firebaseRecyclerAdapter.getRef(position);
-                product.SetId(dbRef.getKey());
-                holder.Initialize(product);
-                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        newProduct.setProduct(product);
-                        newProduct.show();
-                        return false;
-                    }
-                });
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
-        };
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                UpdateProducts();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         productsView = (RecyclerView) view.findViewById(R.id.productsView);
         productsView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        productsView.setAdapter(firebaseRecyclerAdapter);
+
+        UpdateProducts();
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -93,7 +106,7 @@ public class ProductsFragment extends Fragment {
         newProduct = new ProductDialog(getContext());
         newProduct.setTitle("Product");
         newProduct.setContentView(R.layout.productform);
-        newProduct.InitControls();
+        newProduct.InitControls(helper);
 
         FloatingActionButton addProduct = (FloatingActionButton) view.findViewById(R.id.addProduct);
         addProduct.setOnClickListener(new View.OnClickListener() {
@@ -103,30 +116,46 @@ public class ProductsFragment extends Fragment {
             }
         });
 
-        Button saveCmd = (Button) newProduct.findViewById(R.id.cmdSave);
-        saveCmd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SaveProduct();
-            }
-        });
         return view;
     }
 
+    public void UpdateProducts() {
+        String filter = editFilter.getText().toString();
+        Query query = db.child("Products");
+        if(!filter.matches(""))
+            query = db.child("Products").orderByChild("Name")
+                    .startAt(filter)
+                    .endAt(filter+"\uf8ff");
 
-    void SaveProduct()
-    {
-        String toastMessage = newProduct.getIsValid();
 
-        if(toastMessage.matches(""))    //no error
-        {
-            Product product = newProduct.getProduct();
-            if(!helper.save(product))
-                toastMessage ="Failed Saving";
-            newProduct.clear();
-            toastMessage = product.Name + " Added";
-        }
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Product, ProductViewHolder>(Product.class,
+                R.layout.productcard, ProductViewHolder.class, query) {
+            @Override
+            protected void populateViewHolder(ProductViewHolder holder, final Product product, final int position) {
+                DatabaseReference dbRef = firebaseRecyclerAdapter.getRef(position);
+                product.SetId(dbRef.getKey());
+                holder.Initialize(product);
 
-        Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        newItem.setItem(new Item(product));
+                        newItem.show();
+                    }
+                });
+
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        newProduct.setProduct(product);
+                        newProduct.show();
+                        return false;
+                    }
+                });
+            }
+        };
+
+        productsView.getRecycledViewPool().clear();
+        productsView.setAdapter(firebaseRecyclerAdapter);
     }
 }

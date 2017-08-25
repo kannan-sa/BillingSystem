@@ -29,6 +29,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +40,7 @@ import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Print.BillingService;
 import com.kumarangarden.billingsystem.m_UI.ItemDialog;
 import com.kumarangarden.billingsystem.m_UI.ItemViewHolder;
+import com.kumarangarden.billingsystem.m_Utility.DateTimeUtil;
 import com.roughike.bottombar.BottomBar;
 
 import java.text.SimpleDateFormat;
@@ -59,13 +61,8 @@ public class PurchaseFragment extends Fragment {
     FirebaseRecyclerAdapter<Item, ItemViewHolder> firebaseRecyclerAdapter;
     TextView dateView, timeView, totalView;
     View view;
-    Button saveCmd ;
     BottomBar bottomBar;
-    boolean holding = false;
-    private long DELAY = 2000;
-    Handler handler;
-
-    SharedPreferences settings;
+    AutoCompleteTextView editCustomer;
 
     @Nullable
     @Override
@@ -79,6 +76,7 @@ public class PurchaseFragment extends Fragment {
             BillingService.initialized = true;
             firebaseDatabase.setPersistenceEnabled(true);
         }*/
+
         db.keepSynced(true);
 
         helper = new FirebaseHelper(db);
@@ -142,13 +140,13 @@ public class PurchaseFragment extends Fragment {
         newItem = new ItemDialog(getContext());
         newItem.setTitle("Item");
         newItem.setContentView(R.layout.itemform);
-        newItem.InitControls();
+        newItem.InitControls(helper, false);
 
         //SimpleDateFormat sdf = new SimpleDateFormat("E, dd/MM/yyyy HH:mm:ss");
         //String currentDateandTime = sdf.format(new Date());
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String currentDateandTime = sdf.format(c.getTime());
 
         dateView = (TextView) view.findViewById(R.id.textDate);
@@ -180,7 +178,7 @@ public class PurchaseFragment extends Fragment {
 
             }
         });
-        AutoCompleteTextView editCustomer = (AutoCompleteTextView)view.findViewById(R.id.editCustomer);
+        editCustomer = (AutoCompleteTextView)view.findViewById(R.id.editCustomer);
         editCustomer.setThreshold(1);
         editCustomer.setAdapter(autoComplete);
         editCustomer.addTextChangedListener(new TextWatcher() {
@@ -224,7 +222,6 @@ public class PurchaseFragment extends Fragment {
             }
         });
 
-        handler = new Handler();
         bottomBar = (BottomBar) container.findViewById(R.id.bottomBar);
 
         /*
@@ -264,27 +261,54 @@ public class PurchaseFragment extends Fragment {
             }
         });
 
-        saveCmd = (Button) newItem.findViewById(R.id.cmdSave);
-        saveCmd.setOnClickListener(new View.OnClickListener() {
+
+
+        db.child("Commands").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onClick(View v) {
-                SaveItem();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                updateHUD(dataSnapshot);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
         return view;
     }
-    public void ScheduleStateChange()
-    {
 
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                if(holding) {
-                    ToggleMode();
-                    holding = false;
-                }
-            }
-        }, DELAY);
+    private void updateHUD(DataSnapshot dataSnapshot) {
+        String data = dataSnapshot.getValue(String.class);
+        switch (dataSnapshot.getKey())
+        {
+            case "Date":
+                dateView.setText(DateTimeUtil.GetFormatChanged("yyyyMMdd", "dd/MM/yyyy", data));
+                MainActivity.dateSet = true;
+                break;
+            case "Time":
+                timeView.setText(DateTimeUtil.GetFormatChanged("hh:mm:ss a", "hh:mm a", data));
+                MainActivity.timeSet = true;
+                break;
+            case "Name":
+                editCustomer.setText(data);
+                break;
+        }
     }
 
     public void ToggleMode() {
@@ -319,22 +343,6 @@ public class PurchaseFragment extends Fragment {
         }
         itemsView.setLayoutParams(params);
         addItem.setLayoutParams(addItemParams);
-    }
-
-    void SaveItem()
-    {
-        String toastMessage = newItem.getIsValid();
-
-        if(toastMessage.matches(""))    //no error
-        {
-            Item item = newItem.getItem();
-            if(!helper.save(item))
-                toastMessage ="Failed Saving";
-            newItem.clear();
-            toastMessage = item.Name + " Added";
-        }
-
-        //Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
     }
 
     public void SetDate(View view) {

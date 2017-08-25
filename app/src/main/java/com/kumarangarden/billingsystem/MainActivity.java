@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.kumarangarden.billingsystem.m_Model.Customer;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Print.PrintHelper;
 import com.roughike.bottombar.BottomBar;
@@ -60,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference();
                 db.child("Items").removeValue();
                 db.child("Commands/Print").setValue(0);
+                db.child("Commands/Name").setValue("பொது");
+                SetDateTime(db);
+                dateSet = false;
+                timeSet = false;
                 confirm.cancel();
             }
         });
@@ -136,10 +141,26 @@ public class MainActivity extends AppCompatActivity {
 
                                     db.child(key).setValue(item);
                                 }
-                                db.child("Customers/" + name).setPriority(ServerValue.TIMESTAMP);
+
                                 //Clear
                                 db.child("Items").removeValue();
                                 db.child("Commands/Print").setValue(0);
+                                db.child("Commands/Name").setValue("பொது");
+
+                                final String customerKey = "Customers/" + name;
+                                db.child(customerKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(!dataSnapshot.exists())
+                                            db.child(customerKey).setValue(new Customer(name));
+                                        db.child(customerKey).setPriority(ServerValue.TIMESTAMP);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         }
                     }
@@ -160,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         confirm.cancel();
     }
 
-    public void SetDateTime(DatabaseReference db) {
+    public static void SetDateTime(DatabaseReference db) {
         if (!dateSet) {
             String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
             db.child("Commands/Date").setValue(date);

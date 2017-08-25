@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.R;
+import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Product;
 
 /**
@@ -31,7 +32,7 @@ public class ProductDialog extends Dialog {
         super(context);
     }
 
-    public void InitControls() {
+    public void InitControls(final FirebaseHelper helper) {
         name = (EditText) findViewById(R.id.editName);
         id = (EditText) findViewById(R.id.editID);
         price = (EditText) findViewById(R.id.editPrice);
@@ -60,17 +61,37 @@ public class ProductDialog extends Dialog {
             }
         });
 
+        Button saveCmd = (Button) findViewById(R.id.cmdSave);
+        saveCmd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toastMessage = getIsValid();
+
+                if(toastMessage.matches(""))    //no error
+                {
+                    Product product = getProduct();
+                    if(!helper.save(product))
+                        toastMessage ="Failed Saving";
+                    else {
+                        clear();
+                        toastMessage = product.Name + " சேர்க்கப்பட்டது";
+                    }
+                }
+
+                Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public String getIsValid() {
         String result = "";
 
         if(name.getText().toString().matches(""))
-            result = "Enter Name";
-        else if(id.getText().toString().matches(""))
-            result = "Enter ID";
+            result = "பெயரைக் கொடுங்கள்";
+        else if(id.getText().toString().matches("") || id.getText().toString().matches("000"))
+            result = "எண்ணை கொடுங்கள்";
         else if(price.getText().toString().matches(""))
-            result = "Enter Price";
+            result = "விலை  கொடுங்கள்";
 
         return result;
     }

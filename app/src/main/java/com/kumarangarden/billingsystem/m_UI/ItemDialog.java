@@ -17,7 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.R;
+import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Item;
 import com.kumarangarden.billingsystem.m_Model.Product;
 
@@ -50,7 +52,7 @@ public class ItemDialog extends Dialog {
         super(context);
     }
 
-    public void InitControls() {
+    public void InitControls(final FirebaseHelper helper, final boolean closeOnSave) {
         name = (EditText) findViewById(R.id.editName);
         quantity = (EditText) findViewById(R.id.editQuantity);
         price = (EditText) findViewById(R.id.editPrice);
@@ -131,11 +133,50 @@ public class ItemDialog extends Dialog {
         digit2.setOnValueChangedListener(digitChangeListener);
         digit3.setOnValueChangedListener(digitChangeListener);
 
-        Button cancel = (Button) findViewById(R.id.cmdCancel);
+        final Button cancel = (Button) findViewById(R.id.cmdCancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cancel();
+            }
+        });
+
+        Button saveCmd = (Button) findViewById(R.id.cmdSave);
+        saveCmd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toastMessage = getIsValid();
+
+                if(toastMessage.matches(""))    //no error
+                {
+                    final Item item = getItem();
+                    if(!helper.save(item))
+                        toastMessage ="Failed Saving";
+                    else {
+                        clear();
+                        toastMessage = item.Name + " சேர்க்கப்பட்டது";
+
+                        final String productKey = "Products/" + item.GetID();
+                        db.child(productKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if(!dataSnapshot.exists())
+                                    helper.save(new Product(item));
+                                clear();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        if(closeOnSave)
+                            cancel();
+                    }
+                }
+
+                Toast.makeText(getContext(), toastMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -147,33 +188,21 @@ public class ItemDialog extends Dialog {
         @Override
         public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
             String id = digit1.getValue() + "" + digit2.getValue() + "" + digit3.getValue();
-            Query queryRef = db.child("Products").orderByKey().equalTo(id);
-            queryRef.addChildEventListener(new ChildEventListener() {
+            Query queryRef = db.child("Products/" + id);
+            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot snapshot, String previousChild) {
-                    Product product = snapshot.getValue(Product.class);
-                    Initialize(product);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot snapshot, String s) {
-                    Product product = snapshot.getValue(Product.class);
-                    Initialize(product);}
-
-                @Override
-                public void onChildRemoved(DataSnapshot snapshot) {
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot snapshot, String s) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        Product product = dataSnapshot.getValue(Product.class);
+                        Initialize(product);
+                    }
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                }
 
+                }
             });
-            //Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -184,13 +213,16 @@ public class ItemDialog extends Dialog {
 
     public String getIsValid() {
         String result = "";
+        String id = digit1.getValue() + "" + digit2.getValue() + "" + digit3.getValue();
 
         if(name.getText().toString().matches(""))
-            result = "Enter Name";
+            result = "பெயரைக் கொடுங்கள்";
+        else if(id.matches("") || id.matches("000"))
+            result = "எண்ணை கொடுங்கள்";
         else if(quantity.getText().toString().matches(""))
-            result = "Enter Quantity";
+            result = "அளவு கொடுக்கவும்";
         else if(price.getText().toString().matches(""))
-            result = "Enter Price";
+            result = "விலை  கொடுங்கள்";
 
         return result;
     }

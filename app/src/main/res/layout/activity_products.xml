@@ -15,6 +15,19 @@
         android:backgroundTint="#8BC34A">
     </android.support.v7.widget.Toolbar>
 
+    <EditText
+        android:id="@+id/editFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/productsView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:ems="10"
+        android:hint="பெயர்.."
+        android:inputType="textPersonName" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/productsView"
         android:layout_width="match_parent"

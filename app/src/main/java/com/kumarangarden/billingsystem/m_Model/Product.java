@@ -11,6 +11,15 @@ public class Product {
 
     private String id;
 
+    public Product() {
+
+    }
+    public Product(Item item) {
+        Name = item.Name;
+        id = item.GetID();
+        Price = item.UnitPrice;
+    }
+
     public String GetId() {
         return id;
     }

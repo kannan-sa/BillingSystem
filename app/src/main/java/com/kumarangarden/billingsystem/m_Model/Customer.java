@@ -10,6 +10,15 @@ public class Customer {
     public String Phone;
     public String Address;
 
+    public Customer() {
+
+    }
+    public Customer(String name) {
+        Name = name;
+        Phone = "000";
+        Address = "NA";
+    }
+
     public String GetName() {
         return Name;
     }
