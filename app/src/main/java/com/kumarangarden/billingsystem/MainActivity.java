@@ -131,14 +131,11 @@ public class MainActivity extends AppCompatActivity {
                             else
                             {
                                 String base_key = "Purchases/" + name + "/" +date +"/" + time;
-                                Toast.makeText(MainActivity.this,base_key,Toast.LENGTH_LONG).show();
                                 //Copy to sales..
                                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                                     Item item = ds.getValue(Item.class);
                                     item.SetID(ds.getKey());
                                     String key = base_key + "/" + item.GetID();
-                                    Toast.makeText(MainActivity.this,key,Toast.LENGTH_LONG).show();
-
                                     db.child(key).setValue(item);
                                 }
 
