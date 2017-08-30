@@ -39,16 +39,24 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
         return title.getText().toString();
     }
 
-    private float leavesSum = 0;
-    private float creditsSum = 0;
-
-    public void Initialize(final Employee employee, final String stDate, final String edDate, final int workDays)
+    public void Initialize(final Employee employee)
     {
         String title = employee.GetName() + "  ( ₹ " + employee.Wage + ")";
-        total.setText(" ₹" + employee.Wage * workDays);
+        float due = (employee.GetLeavesSum() * employee.Wage) + employee.GetCreditsSum();
+        float grossPay = employee.Wage * employee.GetWorkDays();
+        float netPay = grossPay - due;
+
         this.title.setText(title);
+        total.setText(" ₹" + grossPay);
+
+        String sDue = "விடுப்பு: " + employee.GetLeavesSum();
+        sDue += " நாள், கடன்: ₹" + employee.GetCreditsSum();
+        detail.setText(sDue);
+        subText.setText("பிடிப்பு: ₹" + due);
+        salary.setText(" மீதம்: ₹" + netPay);
+
+
         employee.SetSeleted(false);
-        employee.SetWorkDays(workDays);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             itemView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
@@ -56,8 +64,7 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
             itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
-
-
+/*
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         Query leavesQuery = db.child("Leaves/" + employee.GetName())
                 .orderByKey()
@@ -105,10 +112,6 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder  {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
-
-
-
+*/
     }
 }

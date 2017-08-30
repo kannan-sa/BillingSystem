@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Billing System</string>
-    <string name="title_purchase">வாங்கிய உருப்படி</string>
-    <string name="title_products">விற்பனை பொருள்</string>
-    <string name="title_customers">வாடிக்கையாளர்கள்</string>
-    <string name="title_employees">ஊழியர்கள்</string>
+    <string name="title_purchase">உருப்படி</string>
+    <string name="title_products">விளைபொருள்</string>
+    <string name="title_customers">வாடிக்கையாளர்</string>
+    <string name="title_employees">ஊழியர்</string>
 
     <string name="title_err_code">Error Code</string>
     <string name="title_err_method">Method</string>

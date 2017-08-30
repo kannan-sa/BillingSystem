@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.m_Model.Sale;
+import com.kumarangarden.billingsystem.m_UI.ItemViewHolder;
 import com.kumarangarden.billingsystem.m_UI.SaleAdapter;
 
 import java.util.ArrayList;
@@ -54,6 +57,30 @@ public class CustomerActivity extends AppCompatActivity {
         salesView = (RecyclerView) findViewById(R.id.salesView);
         salesAdapter = new SaleAdapter(sales);
         salesAdapter.name = custName;
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+                Sale sale = salesAdapter.getItem(position);
+
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+                String key = "Purchases/" + custName + "/" + sale.date + "/" + sale.time;
+                db.child(key).removeValue();
+
+                salesAdapter.notifyDataSetChanged();
+                Toast.makeText(CustomerActivity.this, sale.date + " " + sale.time + " Removed", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(salesView);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);

@@ -91,4 +91,17 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SaleHolder> {
     public int getItemCount() {
         return salesList.size();
     }
+
+    public Sale getItem(int index){
+        return salesList.get(index);
+    }
+
+    public boolean RemoveAt(int index) {
+        boolean result = false;
+        if(index < salesList.size()) {
+            salesList.remove(index);
+            result = true;
+        }
+        return  result;
+    }
 }

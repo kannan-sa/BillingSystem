@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kumarangarden.billingsystem.m_FireBase.FirebaseHelper;
 import com.kumarangarden.billingsystem.m_Model.Employee;
+import com.kumarangarden.billingsystem.m_Model.EmployeePayslipCalcuation;
 import com.kumarangarden.billingsystem.m_Print.PrintHelper;
 import com.kumarangarden.billingsystem.m_UI.EmployeeDialog;
 import com.kumarangarden.billingsystem.m_UI.EmployeeViewHolder;
@@ -175,7 +176,14 @@ public class PayslipFragment extends Fragment {
             protected void populateViewHolder(final EmployeeViewHolder holder, final Employee employee, final int position) {
                 DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(position);
                 employee.SetName(databaseReference.getKey());
-                holder.Initialize(employee, stDate, edDate, workDays);
+                employee.SetWorkDays(workDays);
+                employee.CalcPay(stDate, edDate, new EmployeePayslipCalcuation() {
+                    @Override
+                    public void OnPayslipCalculation() {
+                        holder.Initialize(employee);
+                    }
+                });
+
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -186,6 +194,7 @@ public class PayslipFragment extends Fragment {
                         return false;
                     }
                 });
+
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
@@ -218,8 +227,6 @@ public class PayslipFragment extends Fragment {
         employeesView = (RecyclerView) view.findViewById(R.id.employeesView);
         employeesView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         employeesView.setAdapter(firebaseRecyclerAdapter);
-
-
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -269,8 +276,11 @@ public class PayslipFragment extends Fragment {
                         break;
                     case Select:
                             //Print confirm dialog
-                        if(employees.size() > 0)
+                        if(firebaseRecyclerAdapter.getItemCount() > 0) {
+                            if (employees.size() == 0)
+                                loadEmployees();
                             confirm.show();
+                        }
                         else
                             ReInitiate();;
                         break;
@@ -301,6 +311,18 @@ public class PayslipFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void loadEmployees() {
+        for ( int i = 0; i < firebaseRecyclerAdapter.getItemCount(); i++)
+        {
+            DatabaseReference databaseReference = firebaseRecyclerAdapter.getRef(i);
+            Employee employee = firebaseRecyclerAdapter.getItem(i);
+            employee.SetName(databaseReference.getKey());
+            employee.SetWorkDays(workDays);
+            employee.CalcPay(stDate, edDate, null);
+            employees.add(employee);
+        }
     }
 
     private void PrintPayslip() {

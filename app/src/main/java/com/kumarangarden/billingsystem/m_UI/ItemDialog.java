@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -34,6 +35,7 @@ public class ItemDialog extends Dialog {
     private NumberPicker digit1, digit2, digit3;
     private DatabaseReference db;
     private Button incQnt, decQnt, incPrc, decPrc;
+    public TableRow idRow;
 
     private long DELAY = 100;
     Handler handler;
@@ -69,6 +71,7 @@ public class ItemDialog extends Dialog {
         digit3.setMinValue(0);
         digit3.setMaxValue(9);
 
+        idRow = (TableRow) findViewById(R.id.idRow);
 
         db = FirebaseDatabase.getInstance().getReference();
 

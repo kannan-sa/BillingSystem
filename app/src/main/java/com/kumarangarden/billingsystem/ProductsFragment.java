@@ -57,6 +57,7 @@ public class ProductsFragment extends Fragment {
         newItem.setTitle("Item");
         newItem.setContentView(R.layout.itemform);
         newItem.InitControls(helper, true);
+        newItem.idRow.setVisibility(View.GONE);
         editFilter = (EditText) view.findViewById(R.id.editFilter);
         editFilter.addTextChangedListener(new TextWatcher() {
             @Override
