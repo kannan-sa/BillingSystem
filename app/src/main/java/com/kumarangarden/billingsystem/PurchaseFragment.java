@@ -64,6 +64,7 @@ public class PurchaseFragment extends Fragment {
     BottomBar bottomBar;
     AutoCompleteTextView editCustomer;
 
+    boolean editingCustomer = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -181,6 +182,13 @@ public class PurchaseFragment extends Fragment {
         editCustomer = (AutoCompleteTextView)view.findViewById(R.id.editCustomer);
         editCustomer.setThreshold(1);
         editCustomer.setAdapter(autoComplete);
+        editCustomer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                editingCustomer = hasFocus;
+            }
+        });
         editCustomer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -189,7 +197,7 @@ public class PurchaseFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                db.child("Commands/Name").setValue(s.toString());
+                db.child("Commands/Name").setValue(editCustomer.getText().toString());
             }
 
             @Override
@@ -197,6 +205,7 @@ public class PurchaseFragment extends Fragment {
 
             }
         });
+
 
         totalView = (TextView) view.findViewById(R.id.textTotal);
         totalView.setText("மொத்தம் ₹: 0.00");
@@ -306,7 +315,8 @@ public class PurchaseFragment extends Fragment {
                 MainActivity.timeSet = true;
                 break;
             case "Name":
-                editCustomer.setText(data);
+                if(!editingCustomer)
+                    editCustomer.setText(data);
                 break;
         }
     }

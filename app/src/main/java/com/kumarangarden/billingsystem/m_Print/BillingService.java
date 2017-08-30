@@ -60,7 +60,9 @@ public class BillingService extends Service {
         db.child("Commands").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final String name = dataSnapshot.child("Name").getValue(String.class);
+                String db_name = dataSnapshot.child("Name").getValue(String.class);
+
+                final String name = db_name.matches("") ? "பொது" : db_name;
                 final String date = dataSnapshot.child("Date").getValue(String.class);
                 final String time = dataSnapshot.child("Time").getValue(String.class);
 

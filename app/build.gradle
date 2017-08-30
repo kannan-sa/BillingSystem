@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+def outputPathName = "C:\\Users\\kanna_000\\Dropbox\\Builds\\Billing System.apk"
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
@@ -16,6 +16,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(outputPathName)
         }
     }
 }
@@ -36,5 +41,10 @@ dependencies {
     compile 'com.roughike:bottom-bar:2.3.1'
 }
 
+task cleanExtra(type: Delete) {
+    delete outputPathName
+}
+
+clean.dependsOn(cleanExtra)
 
 apply plugin: 'com.google.gms.google-services'

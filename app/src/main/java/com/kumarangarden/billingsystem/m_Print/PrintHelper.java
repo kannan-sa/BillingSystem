@@ -116,9 +116,9 @@ public class PrintHelper implements ReceiveListener {
             mPrinter.addFeedLine(1);
             */
             mPrinter.addTextSize(1, 2);
-            addText("குமரன் கார்டன்ஸ்", Printer.ALIGN_LEFT);
+            addText("குமரன் கார்டன்ஸ்\n", Printer.ALIGN_CENTER);
             mPrinter.addTextSize(1, 1);
-            addText("    - 9629680504\n", Printer.ALIGN_RIGHT);
+            //addText("    - 9629680504\n", Printer.ALIGN_RIGHT);
 
             String formattedDate = DateTimeUtil.GetFormatChanged("yyyyMMdd", "dd/MM/yyyy", date);
             addText(name + "\n", Printer.ALIGN_LEFT);
