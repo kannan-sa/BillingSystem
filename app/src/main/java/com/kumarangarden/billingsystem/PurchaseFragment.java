@@ -299,22 +299,28 @@ public class PurchaseFragment extends Fragment {
             }
         });
 
+        //MainActivity.SetDateTime(db);
         return view;
     }
 
     private void updateHUD(DataSnapshot dataSnapshot) {
-        String data = dataSnapshot.getValue(String.class);
+        String data;//dataSnapshot.getValue(String.class);
         switch (dataSnapshot.getKey())
         {
             case "Date":
+                data = dataSnapshot.getValue(String.class);
                 dateView.setText(DateTimeUtil.GetFormatChanged("yyyyMMdd", "dd/MM/yyyy", data));
-                MainActivity.dateSet = true;
+                if(!MainActivity.localdateSet)
+                    MainActivity.dateSet = true;
                 break;
             case "Time":
+                data = dataSnapshot.getValue(String.class);
                 timeView.setText(DateTimeUtil.GetFormatChanged("hh:mm:ss a", "hh:mm a", data));
-                MainActivity.timeSet = true;
+                if(!MainActivity.localtimeSet)
+                    MainActivity.timeSet = true;
                 break;
             case "Name":
+                data = dataSnapshot.getValue(String.class);
                 if(!editingCustomer)
                     editCustomer.setText(data);
                 break;

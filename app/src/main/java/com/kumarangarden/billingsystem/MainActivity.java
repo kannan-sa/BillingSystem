@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Dialog confirm;
     int printCommand = 1;
     public static boolean dateSet = false, timeSet = false;
+    public static boolean localdateSet = false, localtimeSet = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,13 +104,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ConfirmPrint(View view) {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        SetDateTime(db);
         confirm.show();
     }
 
     public void PrintReceipt() {
         final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
-        SetDateTime(db);
         // 1. if printer avaliable then send content to printer
         db.child("Commands").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else
                             {
+                                ClearFlags();
                                 String base_key = "Purchases/" + name + "/" +date +"/" + time;
                                 //Copy to sales..
                                 for (DataSnapshot ds : dataSnapshot.getChildren()){
@@ -181,17 +184,22 @@ public class MainActivity extends AppCompatActivity {
         confirm.cancel();
     }
 
+    public static void ClearFlags() {
+        dateSet = false;
+        timeSet = false;
+    }
+
     public static void SetDateTime(DatabaseReference db) {
         if (!dateSet) {
             String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
             db.child("Commands/Date").setValue(date);
+            localdateSet = true;
         }
         if (!timeSet) {
             String time = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH).format(new Date());
             db.child("Commands/Time").setValue(time);
+            localtimeSet = true;
         }
-        dateSet = false;
-        timeSet = false;
     }
 
     public void AddCustomer(View view)

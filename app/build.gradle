@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-//def outputPathName = "C:\\Users\\kanna_000\\Dropbox\\Builds\\Billing System.apk"
-def outputPathName = "C:\\Users\\11000257\\Dropbox\\Builds\\Billing System.apk"
+def outputPathName = "C:\\Users\\kanna_000\\Dropbox\\Builds\\Billing System.apk"
+//def outputPathName = "C:\\Users\\11000257\\Dropbox\\Builds\\Billing System.apk"
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"

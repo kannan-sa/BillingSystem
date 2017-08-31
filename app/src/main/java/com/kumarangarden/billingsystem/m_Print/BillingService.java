@@ -43,7 +43,7 @@ public class BillingService extends Service {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     if (dataSnapshot.getValue(Integer.class) > 0) {
-                        MainActivity.SetDateTime(db);
+                        //MainActivity.SetDateTime(db);
                         PrintPurchases();
                     }
                 }
@@ -78,6 +78,8 @@ public class BillingService extends Service {
                             }
                             else
                             {
+                                MainActivity.ClearFlags();
+
                                 String basekey = "Purchases/" + name + "/" +date +"/" + time;
                                 //Copy to sales..
                                 for (DataSnapshot ds : dataSnapshot.getChildren()){
